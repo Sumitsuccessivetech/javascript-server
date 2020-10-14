@@ -1,0 +1,18 @@
+
+#editorconfig is a popular tool to format javascript code. 
+#By using this tool all code added in a repository is formatted in a consistent way.
+#it is a way to maintain coding styles between diffrent editors and IDEs.
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
+max_line_length = off
+
+indent_size = false
