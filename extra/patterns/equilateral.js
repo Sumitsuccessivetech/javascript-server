@@ -1,3 +1,4 @@
+// equilateral pattern program
 let a,b;
 equilateral(5)
 function equilateral(a)

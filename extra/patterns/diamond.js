@@ -1,3 +1,4 @@
+//daimond pattern program
 let x,a
 n=process.argv[2];
 diamond(n);
