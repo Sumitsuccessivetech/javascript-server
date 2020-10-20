@@ -18,7 +18,8 @@ function validateEmail(email){
   } 
 
     
-function validateUsers(users){
+function validateUsers(users)
+{
     let valid=0;
     let invalid=0;
     users.forEach(element => {
