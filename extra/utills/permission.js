@@ -1,41 +1,44 @@
-let d;
-let permissions = {
-    'getUsers': {
-    all: ['head-trainer'],
-    rEAD : ['trainee', 'trainer'],
-    wRITE: ['trainer'],
-    dELETE: [],
-    }
-    }
-const {getUsers} = permissions;
-
-let f;
-function hasPermission(moduleName, role, permissionType)
-{
-    const {all,rEAD,wRITE,dELETE}=moduleName;
-     f= all.includes(role)
-    if(f==true)
+const users = [
     {
-        return true;
+    traineeEmail: 'sumit.upadhyay@successive.tech',
+    reviewerEmail: 'chirag.arora@successive.tech',
+    },
+    {
+    traineeEmail: '@sumitsuccessive.tech',
+    reviewerEmail: '@chiragsuccesive.tech',
+    }
+    ];
+    
+    function validateEmail(email){
+    let pattern = /^([a-zA-Z0-9\.-]+)@(successive).(tech)$/;
+    if(pattern.test(email)){
+    return true;
     }
     else{
-         if(permissionType == 'rEAD')
-         {
-            f = rEAD.includes(role);
-             return f;
-         }
-         else if(permissionType == 'wRITE'){
-             f= wRITE.includes(role)
-             return f;
-         }
-         else if (permissionType == 'dELETE'){
-             f= dELETE.includes(role)
-             return f;
-         }
+    return false;
     }
-
- }
-d = hasPermission(getUsers,'trainee','rEAD' ) 
-console.log(d);
-d = hasPermission(getUsers,'trainer','wRITE' ) 
-console.log(d);
+    }
+    
+    function validateUsers(users){
+    let valid = 0;
+    let invalid = 0;
+    users.forEach(element => {
+    if(validateEmail(element.traineeEmail) === true){
+    console.log("Valid user :", element.traineeEmail);
+    valid=valid+1;
+    }else{
+    console.log("InValid user :", element.traineeEmail);
+    invalid = invalid+1;
+    }
+    if(validateEmail(element.reviewerEmail) === true){
+    console.log("Valid user :", element.reviewerEmail);
+    valid=valid+1;
+    }else{
+    console.log("InValid user :", element.reviewerEmail);
+    invalid = invalid+1;
+    }
+    });
+    console.log("Number of valid user",valid);
+    console.log("Number of Invalid user", invalid);
+    }
+    validateUsers(users);
