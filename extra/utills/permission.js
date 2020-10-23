@@ -1,44 +1,28 @@
-const users = [
-    {
-    traineeEmail: 'sumit.upadhyay@successive.tech',
-    reviewerEmail: 'chirag.arora@successive.tech',
-    },
-    {
-    traineeEmail: '@sumitsuccessive.tech',
-    reviewerEmail: '@chiragsuccesive.tech',
-    }
-    ];
-    
-    function validateEmail(email){
-    let pattern = /^([a-zA-Z0-9\.-]+)@(successive).(tech)$/;
-    if(pattern.test(email)){
-    return true;
-    }
-    else{
-    return false;
-    }
-    }
-    
-    function validateUsers(users){
-    let valid = 0;
-    let invalid = 0;
-    users.forEach(element => {
-    if(validateEmail(element.traineeEmail) === true){
-    console.log("Valid user :", element.traineeEmail);
-    valid=valid+1;
+
+ const permissions =
+{
+'getUsers': {
+all: ['head-trainer'],
+read : ['trainee', 'trainer'],
+write : ['trainer'],
+Delete: [],
+}
+}
+
+function hasPermission(moduleName,role,permissionType)
+
+{
+    let inc=(permissions[moduleName][permissionType].includes(role))
+    if(inc===true){
+        return true;
     }else{
-    console.log("InValid user :", element.traineeEmail);
-    invalid = invalid+1;
+        return false;
     }
-    if(validateEmail(element.reviewerEmail) === true){
-    console.log("Valid user :", element.reviewerEmail);
-    valid=valid+1;
-    }else{
-    console.log("InValid user :", element.reviewerEmail);
-    invalid = invalid+1;
-    }
-    });
-    console.log("Number of valid user",valid);
-    console.log("Number of Invalid user", invalid);
-    }
-    validateUsers(users);
+   
+}
+
+let ret=hasPermission('getUsers',"trainer","read");
+console.log(ret);
+ret=hasPermission('getUsers',"trainee","write");
+console.log(ret);
+
