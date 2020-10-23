@@ -1,10 +1,10 @@
 // equilateral pattern program
-let a,b;
-equilateral(5)
-function equilateral(a)
+let a;
+//equilateral(5)
+export default function equilateral(a)
 {
 console.log("print a equilateral triangle "+a);
-
+let b;
 if(a<2 && a>10)
 return(0);
 
