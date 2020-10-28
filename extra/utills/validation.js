@@ -1,22 +1,6 @@
-const users = [
-    {
-        traineeEmail: 'sumit.upadhyay@successive.tech',
-        reviewerEmail: 'chirag.arora@successive.tech',
-    },
-    {
-        traineeEmail: '@sumitsuccessive.tech',
-        reviewerEmail: '@chiragsuccesive.tech',
-    },
-];
+import validateEmail from '../utills/helpers'
 
-function validateEmail(email) {
-    const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    return (pattern.test(email))
-
-
-}
-function validateUsers(userData) {
+export default function validateUsers(userData) {
     let validUser = [];
     let invalidUser = [];
     userData.forEach(userData => {
@@ -30,5 +14,4 @@ function validateUsers(userData) {
     console.log([validUser.length] + " are valid users:", validUser);
     console.log([invalidUser.length] + " are  invalid users:", invalidUser);
 }
-validateUsers(users);
 
