@@ -12,5 +12,5 @@ type access ={
 
 interface IPermissions {
     getUsers : access;
-    getProducts : access;
+   // getUser : access;
 };
