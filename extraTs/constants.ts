@@ -1,4 +1,3 @@
-
 export const permissions : IPermissions =
 {
     'getUsers': {
@@ -8,3 +7,14 @@ export const permissions : IPermissions =
         delete: [ ],
     }
 }
+
+export const users : IUsers[] = [
+    {
+        traineeEmail : 'shashank.baranwal@gmail.com',
+        reviewerEmail : 'naman.parashar@gmail.com'
+    },
+    {
+        traineeEmail : 'shashank.baranwal@successive.tech',
+        reviewerEmail : 'naman.parashar@succesive.tech'
+    }
+]

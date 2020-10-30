@@ -1,27 +1,21 @@
-let x;
-export default function diamond(x)
+export default function creatediamond(n : number) : void
 {
-let a= " "
-console.log("print a diamond with rows "+x);
-
-for(let i=0; i<x; i++) {
-a="";
-
-for(let j=i; j<x-1; j++)
-a+=" ";
-
-for (let z=i; z>=0; z--)
-a+="* ";
-console.log(a);
+    // using for white space
+    let s = "";
+    // using for rows
+    let j = n;
+    for(let i=1;i<=n;i++){
+        s=" ".repeat(j);
+        console.log(s,'* '.repeat(i));
+        s="";
+        j--;
+    }
+    for(let i=n;i>=1;i--){
+        s=" ".repeat(j);
+        console.log(s,' *'.repeat(i));
+        s="";
+        j++;
+    }
 }
-for(let i=0; i<x; i++){
-a="";
 
-for(let j=i; j>0; j--)
-a+=" ";
-
-for(let z=i; z<x; z++)
-a+="* ";
-console.log(a);
-}
-}
+//creatediamond(5)

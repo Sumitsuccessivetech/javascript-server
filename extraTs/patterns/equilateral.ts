@@ -1,23 +1,13 @@
-// equilateral pattern program
-let a;
-//equilateral(5)
-export default function equilateral(a)
-{
-console.log("print a equilateral triangle "+a);
-let b;
-if(a<2 && a>10)
-return(0);
+export default function equilateral(n : number) : void{
+    // Using for white space
+    let s = "";
 
-for(let i=1; i<=a; i++)
-{
-b=" ";
-for(let j=i; j<=a; j++)
-{
-b+=" ";
-}
-for (let k=i; k>0; k--){
-b+="* ";
-}
-console.log(b);
-}
+    // using for rows
+    let j = n;
+    for(let i=1;i<=n;i++){
+        s = " ".repeat(j);
+        console.log(s,'* '.repeat(i));
+        s="";
+        j--;
+    }
 }
