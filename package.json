@@ -22,9 +22,6 @@
   },
   "homepage": "https://github.com/Sumitsuccessivetech/javascript-server#readme",
   "dependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
     "@types/node": "^14.14.3",
     "husky": "^4.3.0",
     "tsc-watch": "^4.2.9",
@@ -32,5 +29,9 @@
     "tst": "^6.1.1",
     "typescript": "^4.0.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
+  }
 }
