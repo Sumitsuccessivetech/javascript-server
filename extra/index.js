@@ -1,8 +1,4 @@
-
 import { diamond, equilateral } from './patterns';
-diamond(5)
-equilateral(5)
-
 import { hasPermission } from './utills';
 import { validateUsers } from './utills';
 
@@ -20,3 +16,5 @@ const users = [
 
 hasPermission('getUsers', "trainer", "read");
 validateUsers(users);
+diamond(5);
+equilateral(5);
