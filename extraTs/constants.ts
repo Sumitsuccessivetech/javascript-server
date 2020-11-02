@@ -11,10 +11,10 @@ export const permissions : IPermissions =
 export const users : IUsers[] = [
     {
         traineeEmail : 'sumit.upadhyay@successive.tech',
-        reviewerEmail : 'chirag.arora@succesive.tech'
+        reviewerEmail : 'chirag.arora@successive.tech'
     },
     {
-        traineeEmail : '@sumit.upadhyaysucesive.tech',
-        reviewerEmail : 'chirag.arora@successive.tech'
+        traineeEmail : '@sumitsuccesive.tech',
+        reviewerEmail : '@chiragsuccesive.tech'
     }
 ]
