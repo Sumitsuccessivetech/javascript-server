@@ -11,6 +11,6 @@ export default function validateUsers(users: IUsers[]): void {
             invalidUser.push(userData);
         }
     });
-    console.log(`${validUser.length}` + ' are valid users:', validUser);
-    console.log(`${invalidUser.length}` + 'are invalid users:', invalidUser);
+    console.log(`${validUser.length}  are valid users:`, validUser);
+    console.log(`${invalidUser.length} are invalid users:`, invalidUser);
 }
