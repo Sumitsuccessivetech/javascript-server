@@ -1,8 +1,8 @@
 export default function creatediamond(n : number) : void
 {
-    // using for white space
+    
     let s = "";
-    // using for rows
+    
     let j = n;
     for(let i=1;i<=n;i++){
         s=" ".repeat(j);
@@ -17,5 +17,3 @@ export default function creatediamond(n : number) : void
         j++;
     }
 }
-
-//creatediamond(5)

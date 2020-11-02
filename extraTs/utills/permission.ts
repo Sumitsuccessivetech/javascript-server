@@ -3,15 +3,14 @@ export default function hasPermission( moduleName: string , role: string , permi
 {
     console.log(permissions);
     console.log(moduleName);
-    const temp = permissions[moduleName];
-    if(!temp || !temp[permissionType]){
+    const assent = permissions[moduleName];
+    if(!assent || !assent[permissionType]){
         return false;
+        console.log("user has no access of this type");
     }
-    if(temp['all'].includes(role)){
-        return true;
-    }
-    if(!temp[permissionType].includes(role)){
+    if(!assent[permissionType].includes(role)){
         return false;
+        console.log("user has no access of this type");
     }
     return true;
 }
