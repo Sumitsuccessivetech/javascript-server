@@ -1,13 +1,3 @@
-
-// const permissions =
-// {
-//     'getUsers': {
-//         all: ['head-trainer'],
-//         read: ['trainee', 'trainer'],
-//         write: ['trainer'],
-//         Delete: [],
-//     }
-// }
 import {permissions} from '../constants';
 export default function hasPermission(moduleName, role, permissionType) {
     
