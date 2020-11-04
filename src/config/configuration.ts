@@ -5,6 +5,7 @@ const envVars = dotenv.config()
 console.log("inside config", envVars);
 
 
-const config = envVars.parsed;
-Object.freeze(config);
-export default config;
+const { port, NODE_ENV } = envVars.parsed;
+console.log('---config---', dotenv.config)
+
+export default Object.freeze({ port: port, env: NODE_ENV || 'local' })
