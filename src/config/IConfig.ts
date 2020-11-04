@@ -1,5 +1,5 @@
 interface IConfig{
-    port : number;
+    PORT : number;
     NODE_ENV : String;
 }
 export {IConfig};
