@@ -14,3 +14,4 @@ export default function validateUsers(userData) {
     console.log([validUser.length] + " are valid users:", validUser);
     console.log([invalidUser.length] + " are  invalid users:", invalidUser);
 }
+

@@ -8,3 +8,4 @@ const result1=hasPermission('getUsers', "trainer", "read");
 console.log(result1);
 const result2 =hasPermission('getUsers', "trainee", "write");
 console.log(result2);
+

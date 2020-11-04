@@ -1,3 +1,4 @@
+// equilateral pattern program
 let a;
 //equilateral(5)
 export default function equilateral(a)

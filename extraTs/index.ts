@@ -1,20 +1,12 @@
-import { diamond, equilateral } from './patterns';
-import { hasPermission } from './utills';
-import { validateUsers } from './utills';
+import { diamond , equilateral } from './patterns';
+import { hasPermission , validateUsers } from './utills';
+import { users } from './constants';
 
-const users = [
-    {
-        traineeEmail: 'sumit.upadhyay@successive.tech',
-        reviewerEmail: 'chirag.arora@successive.tech',
-    },
-    {
-        traineeEmail: '@sumitsuccessive.tech',
-        reviewerEmail: '@chiragsuccesive.tech',
-    },
-];
-
-
-hasPermission('getUsers', "trainer", "read");
-validateUsers(users);
 diamond(5);
-equilateral(5);
+equilateral(10);
+
+console.log(hasPermission('getUsers', 'head-tainer', 'all'));
+console.log(hasPermission('getUsers', 'tainer', 'read'));
+console.log(hasPermission('getUsers', 'head-trainee', 'write'));
+
+validateUsers(users);
