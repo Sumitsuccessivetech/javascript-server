@@ -3,70 +3,13 @@ import * as bodyParser from "body-parser";
 import { notFoundHandler, errorHandler } from './libs/routes';
 import mainRouter from './router'
 
-// class Server {
-//     private app: any;
-//     constructor(private config) {
-//         this.app = express()
-//     }
-
-//     public initBodyParser() {
-//         this.app.use(bodyParser.json({ type: 'application/**json' }))
-//     }
-
-//     bootstrap() {
-//         this.initBodyParser()
-//         this.setupRouts()
-//         return this;
-//     }
-
-//     public setupRouts() {
-//         const { app } = this;
-//         app.use('/health-check', (req, res) => {
-//             console.log("inside Second middleware");
-//             res.send("I am OK");
-//         });
-
-//         this.app.use('/api', mainRouter)
-//         this.app.use(notFoundHandler);
-//         this.app.use(errorHandler);
-//         return this;
-//         //this.app.use((req, res, next) => {
-            
-//         }
-
-//         // this.app.use((err, req, res, next) => {
-//         //     console.log(err);
-//         //     res.json(
-//         //         {
-//         //             "error ": err.error,
-//         //             status: err.code,
-//         //             message: err.message || "Error",
-//         //             timeStamp: new Date()
-
-//         //         }
-//         //     )
-//         // });
-//         // return this;
-//     }
-//     run() {
-//         const { app, config: { PORT } } = this;
-//         app.listen(PORT, (err) => {
-//             if (err) {
-//                 console.log(err);
-
-//             }
-//             console.log(`App is running on port ${PORT}`);
-
-//         })
-//     }
-// }
 class Server {
-    private app: any ;
+    private app: any;
     constructor(private config) {
         this.app = express();
 
     }
-   public initBodyParser() {
+    public initBodyParser() {
         this.app.use(bodyParser.json());
     }
 
@@ -76,24 +19,24 @@ class Server {
         return this;
     }
 
-   public setupRoutes() {
+    public setupRoutes() {
         // const { app } = this;
-        this.app.use( '/health-check', ( req, res, next ) => {
-            res.send( 'I am Ok' );
+        this.app.use('/health-check', (req, res, next) => {
+            res.send('I am Ok');
             next();
         });
-        this.app.use( '/api' , mainRouter );
-        this.app.use( notFoundHandler );
-        this.app.use( errorHandler );
+        this.app.use('/api', mainRouter);
+        this.app.use(notFoundHandler);
+        this.app.use(errorHandler);
         return this;
     }
-    run () {
-        const { app , config : {PORT }} = this;
-        app.listen( PORT , ( err ) => {
-            if ( err ) {
-            console.log( err );
+    run() {
+        const { app, config: { PORT } } = this;
+        app.listen(PORT, (err) => {
+            if (err) {
+                console.log(err);
             }
-            console.log( `App is running on port ${ PORT }` );
+            console.log(`App is running on port ${PORT}`);
         });
 
     }
