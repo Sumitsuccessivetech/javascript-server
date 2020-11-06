@@ -2,9 +2,8 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { notFoundHandler, errorHandler } from './libs/routes';
 import routes from './router'
-
 class Server{
-    app
+    private app;
     constructor(private config){
         this.app=express()
     }
@@ -56,7 +55,9 @@ class Server{
             }
             console.log(`App is running on port ${PORT}`);
 
+
         })
     }
 }
 export default Server;
+
