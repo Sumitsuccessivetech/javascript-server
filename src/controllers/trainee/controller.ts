@@ -1,80 +1,76 @@
-class traineeController{
+class traineeController {
     static instance: traineeController
 
-    static getInstance(){
-        if(traineeController.instance){
+    static getInstance() {
+        if (traineeController.instance) {
             return traineeController.instance;
         }
-        traineeController.instance=new traineeController();
+        traineeController.instance = new traineeController();
         return traineeController.instance;
     }
 
-    get(req, res, next){
-        try{
-            var Console: Console
+    get(req, res, next) {
+        try {
             console.log("Inside get method of Trainee Controller");
             res.send({
                 message: "Trainer fetched succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
+        } catch (err) {
 
         }
     }
-    create(req, res, next){
-        try{
-            var Console: Console
+    create(req, res, next) {
+        try {
             console.log("Inside post method of Trainee Controller");
             res.send({
                 message: "Trainee created succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
+        } catch (err) {
 
         }
     }
-    update(req, res, next){
-        try{
-            var Console: Console
+    update(req, res, next) {
+        try {
             console.log("Inside update method of Trainee Controller");
             res.send({
                 message: "Trainee updated succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
+        } catch (err) {
 
         }
     }
 
-    delete(req, res, next){
-        try{
-            var Console: Console
+    delete(req, res, next) {
+        try {
             console.log("Inside post method of Trainee Controller");
             res.send({
                 message: "Trainee created succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
+        } catch (err) {
 
         }
     }
