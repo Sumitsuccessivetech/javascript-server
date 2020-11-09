@@ -38,7 +38,6 @@ class Server {
             }
             console.log(`App is running on port ${PORT}`);
         });
-
     }
 }
 export default Server;
