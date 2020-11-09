@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { notFoundHandler, errorHandler } from './libs/routes';
+import Database from './libs/Database'
 import mainRouter from './router'
 
 class Server {
@@ -20,7 +21,6 @@ class Server {
     }
 
     public setupRoutes() {
-        // const { app } = this;
         this.app.use('/health-check', (req, res, next) => {
             res.send('I am Ok');
             next();
@@ -31,14 +31,19 @@ class Server {
         return this;
     }
     run() {
-        const { app, config: { PORT } } = this;
-        app.listen(PORT, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log(`App is running on port ${PORT}`);
-        });
+        const { app, config: { PORT, MONGO_URL } } = this;
+        Database.open('mongodb://localhost:27017/express-training')
+            .then((res) => {
+                console.log("Successfully connected to mongo")
+                app.listen(PORT, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(`App is running on port ${PORT}`);
+                });
 
-    }
+            }
+            )}
+
 }
-export default Server;
+    export default Server;
