@@ -1,26 +1,29 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
+import * as express from 'express';
+import * as bodyparser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
-import routes from './router'
-class Server{
-    private app;
-    constructor(private config){
-        this.app=express()
+
+class Server {
+
+    private app: any;
+    constructor(private config) {
+        this.app = express();
     }
-    bootstrap(){
-        this.setupRouts()
+  
+    bootstrap() {
+      this.initBodyParser();
+        this.SetupRoutes();
         return this;
     }
+  
     public setupRouts(){
         const { app }=this;
         app.use('/health-check',(req, res)=>{
             console.log("inside Second middleware");
             res.send("I am OK");
         });
-
-       this.app.use('/api', routes)
         this.app.use(notFoundHandler);
         this.app.use(errorHandler);
+       this.app.use('/api', routes)
         this.app.use((req, res, next) => {
             next({
                 error: "Not Found",
@@ -54,10 +57,8 @@ class Server{
                 
             }
             console.log(`App is running on port ${PORT}`);
-
-
-        })
+        });
+        return this;
     }
 }
 export default Server;
-

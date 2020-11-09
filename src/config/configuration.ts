@@ -1,9 +1,8 @@
 import { IConfig } from './IConfig';
-
 import * as dotenv from 'dotenv';
+
 const envVars = dotenv.config()
 console.log("inside config", envVars);
-
 
 const { PORT, NODE_ENV } = envVars.parsed;
 
