@@ -13,7 +13,6 @@ class Server {
     public initBodyParser() {
         this.app.use(bodyParser.json());
     }
-
     bootstrap() {
         this.initBodyParser();
         this.setupRoutes();
@@ -43,7 +42,8 @@ class Server {
                 });
 
             }
-            )}
+            )
+    }
 
 }
-    export default Server;
+export default Server;
