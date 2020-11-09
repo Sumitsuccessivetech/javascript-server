@@ -1,3 +1,7 @@
 node_modules
 package-lock.json
 dist
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> 4b103c14e3c0182c83927207f6684580b504f1a7
