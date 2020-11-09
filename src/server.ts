@@ -24,6 +24,7 @@ class Server {
     public initBodyParser() {
       this.app.use(bodyparser.json({ type: 'application/*+json' }));
     }
+  
     run() {
         this.app.listen(this.config.port, (err) => {
             if (err) {
@@ -35,4 +36,5 @@ class Server {
         return this;
     }
 }
+
 export default Server;
