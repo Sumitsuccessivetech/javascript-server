@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyparser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
+import notFoundRoutes from './libs/routes/notFoundRoutes';
 
 class Server {
 
@@ -11,7 +12,7 @@ class Server {
   
     bootstrap() {
       this.initBodyParser();
-        this.SetupRoutes();
+        this.setupRouts();
         return this;
     }
   
@@ -23,7 +24,7 @@ class Server {
         });
         this.app.use(notFoundHandler);
         this.app.use(errorHandler);
-       this.app.use('/api', routes)
+       this.app.use('/api', notFoundRoutes)
         this.app.use((req, res, next) => {
             next({
                 error: "Not Found",
@@ -47,7 +48,7 @@ class Server {
         return this;
     }
     public initBodyParser(){
-        this.app.use(bodyParser.json( {type : 'application/**json'}))
+        this.app.use(bodyparser.json( {type : 'application/**json'}))
     }
     run(){
         const {app, config:{PORT}}=this;
