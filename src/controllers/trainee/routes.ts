@@ -3,7 +3,7 @@ import TraineeController from './controller';
 import { validationHandler } from '../../libs/routes';
 import config from './validation';
 import authMiddleWare from '../../libs/routes/authMiddleWare';
-import { Permission, users } from '../../libs/routes/constants';
+import { Permission } from '../../libs/routes/constants';
 const traineeRoutes = express.Router();
 
 traineeRoutes.route('/mainRouter')

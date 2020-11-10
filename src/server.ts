@@ -2,7 +2,8 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { notFoundHandler, errorHandler } from './libs/routes';
 import notFoundRoutes from './libs/routes/notFoundRoutes';
-
+import Database from './libs/Database'
+import mainRouter from "./router";
 class Server {
     private app: any;
     constructor(private config) {
@@ -14,27 +15,35 @@ class Server {
     }
     bootstrap() {
         this.initBodyParser();
-        this.setupRouts();
+        this.setupRoutes();
         return this;
     }
 
-    public setupRouts() {
-        const { app } = this;
-        app.use('/health-check', (req, res) => {
-            console.log("inside Second middleware");
-            res.send("I am OK");
+    public setupRoutes() {
+        this.app.use('/health-check', (req, res, next) => {
+            res.send('I am Ok');
+            next();
         });
+        this.app.use('/api', mainRouter);
         this.app.use(notFoundHandler);
         this.app.use(errorHandler);
-        this.app.use('/api', notFoundRoutes)
-        this.app.use((req, res, next) => {
-            next({
-                error: "Not Found",
-                code: 404
+        return this;
+    }
+    run() {
+        const { app, config: { PORT, MONGO_URL } } = this;
+        Database.open('mongodb://localhost:27017/express-training')
+            .then((res) => {
+                console.log("Successfully connected to mongo")
+                app.listen(PORT, (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(`App is running on port ${PORT}`);
+                });
 
             })
-        })
+            .catch(err => console.log(err));
+    }
 
 }
-}
-    export default Server;
+export default Server;

@@ -1,27 +1,27 @@
 import * as jwt from 'jsonwebtoken';
 import hasPermission from './permission';
 import { Response, NextFunction } from 'express'
+import IRequest from '..//../IRequest'
+
 export default (module, permissionType) => (req, res, next) => {
     try {
-        console.log('config is', module, permissionType);
         const token = req.headers.authorization;
-        console.log(token);
-        const User = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456');
-        console.log(User.Role);
-        const result = hasPermission(module, User.Role, permissionType);
-        console.log('result is', result);
-        if (result === true)
+        const secretKey = 'qwertyuiopasdfghjklzxcvbnm123456';
+        const decodeUser = jwt.verify(token, secretKey);
+        req.userDataToken = decodeUser;
+        console.log(req.userDataToken)
+        const valOfPermission = hasPermission(module, decodeUser.docs.role, permissionType);
+        if (valOfPermission) {
             next();
-        else {
-            next({
-                message: 'Unauthorised',
-                status: 403
-            });
         }
-    }
-    catch (err) {
+
+
+    } catch (err) {
         next({
-            message: err
+            error: 403,
+            message: 'Unauthorised Access'
         });
+
     }
-};
+
+};   
