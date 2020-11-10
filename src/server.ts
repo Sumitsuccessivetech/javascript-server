@@ -62,4 +62,5 @@ class Server {
         return this;
     }
 }
+
 export default Server;

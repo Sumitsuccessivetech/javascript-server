@@ -57,7 +57,7 @@ class traineeController {
 
         }
     }
-
+  
     delete(req, res, next) {
         try {
             console.log("Inside post method of Trainee Controller");
@@ -71,6 +71,7 @@ class traineeController {
                 ]
             })
         } catch (err) {
+
 
         }
     }
