@@ -36,31 +36,6 @@ class Server {
             })
         })
 
-        this.app.use((err, req, res, next) => {
-            console.log(err);
-            res.json(
-                {
-                    "error ": err.error,
-                    status: err.code,
-                    message: err.message || "Error",
-                    timeStamp: new Date()
-
-                }
-            )
-        });
-        return this;
-    }
-
-    run() {
-        const { app, config: { PORT } } = this;
-        app.listen(PORT, (err) => {
-            if (err) {
-                console.log(err);
-
-            }
-            console.log(`App is running on port ${PORT}`);
-        });
-    }
 }
-
-export default Server;
+}
+    export default Server;
