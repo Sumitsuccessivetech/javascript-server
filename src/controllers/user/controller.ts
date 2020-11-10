@@ -17,8 +17,6 @@ class UserController {
     login(req: IRequest, res: Response, next: NextFunction) {
 
         const { email , password } = req.body;
-        // console.log('Email is: ',email,'Password is :', password);
-       // console.log(userModel);
         userModel.findOne({ email: email }, (err, docs) => {
             if (docs) {
                 if ( password === docs.password) { 

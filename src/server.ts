@@ -1,9 +1,9 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { notFoundHandler, errorHandler } from './libs/routes';
-import notFoundRoutes from './libs/routes/notFoundRoutes';
 import Database from './libs/Database'
-import mainRouter from "./router";
+import mainRouter from './router'
+
 class Server {
     private app: any;
     constructor(private config) {
