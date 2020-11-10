@@ -29,6 +29,7 @@ class Server {
         this.app.use(errorHandler);
         return this;
     }
+  
     run() {
         const { app, config: { PORT, MONGO_URL } } = this;
         Database.open('mongodb://localhost:27017/express-training')
@@ -46,4 +47,5 @@ class Server {
     }
 
 }
+
 export default Server;
