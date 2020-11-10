@@ -18,7 +18,7 @@ const config = {
     create: {
         id: {
             required: true,
-            string: false,
+            string: true,
             in: ['body'],
             custom: (Value) => {
                 console.log(`Value ${Value}`);
