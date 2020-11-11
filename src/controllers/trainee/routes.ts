@@ -4,7 +4,7 @@ import config from './validation'
 import traineeController from './controller';
 
 
-const traineeRouter = Router();
+const traineeRouter =Router();
 
 traineeRouter.route('/')
    .get(validationHandler(config.get), traineeController.get)

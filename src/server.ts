@@ -3,7 +3,6 @@ import * as bodyparser from 'body-parser';
 import { errorHandler } from './libs/routes';
 import notFoundRoutes from './libs/routes/notFoundRoutes';
 import mainRouter from './router';
-import { nextTick } from 'process';
 
 class Server {
 
@@ -13,7 +12,8 @@ class Server {
     }
 
     public initBodyParser() {
-        this.app.use(bodyparser.json({ type: 'application/**json' }))
+        this.app.use(bodyparser.json());
+        this.app.use(bodyparser.urlencoded({ extended: false }));
     }
 
     bootstrap() {
@@ -27,11 +27,10 @@ class Server {
         app.use('/health-check', (req, res) => {
             console.log("inside Second middleware");
             res.send("I am OK");
-            
         });
-        this.app.use( '/api' , mainRouter );
-        this.app.use( notFoundRoutes );
-        this.app.use( errorHandler );
+        this.app.use('/api', mainRouter);
+        this.app.use(notFoundRoutes);
+        this.app.use(errorHandler);
         return this;
     }
     run() {

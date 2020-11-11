@@ -22,7 +22,7 @@ class traineeController {
                 ]
             })
         } catch (err) {
-
+            console.log(`Error Occured ${err}`)
         }
     }
     create(req, res, next) {
@@ -38,7 +38,7 @@ class traineeController {
                 ]
             })
         } catch (err) {
-
+            console.log(`Error Occured ${err}`)
         }
     }
     update(req, res, next) {
@@ -54,7 +54,7 @@ class traineeController {
                 ]
             })
         } catch (err) {
-
+            console.log(`Error Occured ${err}`)
         }
     }
 
@@ -62,7 +62,7 @@ class traineeController {
         try {
             console.log("Inside post method of Trainee Controller");
             res.status(200).json({
-                message: "Trainee created succesfully",
+                message: "Trainee Deleted succesfully",
                 data: [
                     {
                         name: "Sumit",
@@ -71,8 +71,7 @@ class traineeController {
                 ]
             })
         } catch (err) {
-
-
+            console.log(`Error Occured ${err}`)
         }
     }
 

@@ -6,64 +6,39 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
     const keys = Object.keys(config);
     keys.forEach((key) => {
         const obj = config[key];
+        console.log('body is', req.body);
+        const errMsg = obj.errorMessage;
         const values = obj.in.map((val) => {
+            console.log('key is', key);
+            console.log('val is', val);
             return req[val][key];
-
         });
         console.log('value is', values[0]);
-        if (Object.keys(req[obj.in]).length === 0) {
-            errors.push({
-                key: { key },
-                location: obj.in,
-                message: obj.errorMessage || `Values should be passed through ${obj.in}`,
-            })
-        }
-
         if (obj.required) {
             if (isNull(values[0])) {
-                errors.push({
-                    key: { key },
-                    location: obj.in,
-                    message: obj.errorMessage || `${key} is required`,
-                })
+                throw ({ status: 400, msg: `${key} is required field`, error: "Bad Request" })
             }
         }
         if (obj.string) {
             if (!(typeof (values[0]) === 'string')) {
-                errors.push({
-                    key: { key },
-                    location: obj.in,
-                    message: obj.errorMessage || `${key} Should be a String`,
-                })
+                throw ({ status: 400, msg: `${key}  should be a string`, error: "Bad Request" })
             }
         }
         if (obj.isObject) {
             if (!(typeof (values) == 'object')) {
-                errors.push({
-                    key: { key },
-                    location: obj.in,
-                    message: obj.errorMessage || `${key} Should be an object`,
-                })
+                throw ({ status: 400, msg: `${key}  should be an Object`, error: "Bad Request" })
             }
         }
         if (obj.regex) {
             const regex = obj.regex;
             if (!regex.test(values[0])) {
-                errors.push({
-                    key: { key },
-                    location: obj.in,
-                    message: obj.errorMessage || `${key} is not a valid expression`,
-                });
+                throw ({ status: 400, msg: `${key} is not a valid Expression`, error: "Bad Request" })
             }
         }
 
         if (obj.number) {
             if (isNaN(values[0]) || values[0] === undefined) {
-                errors.push({
-                    key: { key },
-                    location: obj.in,
-                    message: obj.errorMessage || `${key}  must be a number`,
-                });
+                throw ({ status: 400, msg: `${key}  must be a number`, error: "Bad Request" })
             }
         }
     })
