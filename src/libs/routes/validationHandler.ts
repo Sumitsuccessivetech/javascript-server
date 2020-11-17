@@ -6,20 +6,17 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
     const keys = Object.keys(config);
     keys.forEach((key) => {
         const obj = config[key];
-        const errMsg = obj.errorMessage;
         const values = obj.in.map((val) => {
             console.log('key is', key);
             console.log('val is', val);
             return req[val][key];
         });
         const filterValues = values.filter((val) => (val));
-        console.log('--Filtered Values--', filterValues);
+        if (!filterValues.length && obj.required) {
+            throw ({ status: 400, msg: `${key} is required field`, error: "Bad Request" })
+        }
         filterValues.forEach(element => {
             console.log(element);
-            console.log('element is', element);
-            if (!filterValues.length && obj.required) {
-                throw ({ status: 400, msg: `${key} is required field`, error: "Bad Request" })
-            }
             if (obj.string) {
                 if (!(typeof (element) === 'string')) {
                     throw ({ status: 400, msg: `${key}  should be a string`, error: "Bad Request" })
