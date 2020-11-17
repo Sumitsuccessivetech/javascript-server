@@ -1,7 +1,8 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { notFoundHandler, errorHandler } from './libs/routes';
+import * as express from 'express';
+import * as bodyparser from 'body-parser';
+import { errorHandler } from './libs/routes';
 import notFoundRoutes from './libs/routes/notFoundRoutes';
+import mainRouter from './router';
 
 class Server {
     private app: any;
@@ -9,8 +10,10 @@ class Server {
         this.app = express();
 
     }
+
     public initBodyParser() {
-        this.app.use(bodyParser.json());
+        this.app.use(bodyparser.json());
+        this.app.use(bodyparser.urlencoded({ extended: false }));
     }
 
     bootstrap() {
@@ -25,40 +28,19 @@ class Server {
             console.log("inside Second middleware");
             res.send("I am OK");
         });
-        this.app.use(notFoundHandler);
+        this.app.use('/api', mainRouter);
+        this.app.use(notFoundRoutes);
         this.app.use(errorHandler);
-        this.app.use('/api', notFoundRoutes)
-        this.app.use((req, res, next) => {
-            next({
-                error: "Not Found",
-                code: 404
-
-            })
-        })
-
-        this.app.use((err, req, res, next) => {
-            console.log(err);
-            res.json(
-                {
-                    "error ": err.error,
-                    status: err.code,
-                    message: err.message || "Error",
-                    timeStamp: new Date()
-
-                }
-            )
-        });
         return this;
     }
-
     run() {
-        const { app, config: { PORT } } = this;
-        app.listen(PORT, (err) => {
+        const { app, config: { port } } = this;
+        app.listen(port, (err) => {
             if (err) {
                 console.log(err);
 
             }
-            console.log(`App is running on port ${PORT}`);
+            console.log(`App is running on port ${port}`);
         });
     }
 }
