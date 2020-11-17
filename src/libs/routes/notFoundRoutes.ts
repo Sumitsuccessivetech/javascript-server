@@ -4,7 +4,6 @@ export default (req:Request , res:Response, next: NextFunction) => {
 
     next({
         error: "Not Found",
-        code: 400,
-        msg: " "
+        code: 404
     })
 }
