@@ -38,7 +38,7 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
             }
 
             if (obj.number) {
-                if (isNaN(element || element === undefined)) {
+                if (isNaN(element)) {
                     throw ({ status: 400, msg: `${key}  must be a number`, error: "Bad Request" })
                 }
             }
@@ -46,8 +46,3 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
     });
     next();
 };
-
-function isNull(obj) {
-    const a = (obj === 'undefined' || obj === null);
-    return a;
-}
