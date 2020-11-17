@@ -3,6 +3,7 @@ import * as bodyparser from 'body-parser';
 import { errorHandler } from './libs/routes';
 import notFoundRoutes from './libs/routes/notFoundRoutes';
 import mainRouter from './router';
+import Database from './libs/Database'
 
 class Server {
     private app: any;
@@ -34,7 +35,9 @@ class Server {
         return this;
     }
     run() {
-        const { app, config: { port } } = this;
+        const { app , config : {port, MONGO_URL }} = this;
+        Database.open(MONGO_URL)
+            .then((res) => {
         app.listen(port, (err) => {
             if (err) {
                 console.log(err);
@@ -42,7 +45,8 @@ class Server {
             }
             console.log(`App is running on port ${port}`);
         });
-    }
+    });
+}
 }
 
     export default Server;
