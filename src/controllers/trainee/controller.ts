@@ -1,77 +1,77 @@
-class traineeController{
+class traineeController {
     static instance: traineeController
 
-    static getInstance(){
-        if(traineeController.instance){
+    static getInstance() {
+        if (traineeController.instance) {
             return traineeController.instance;
         }
-        traineeController.instance=new traineeController();
+        traineeController.instance = new traineeController();
         return traineeController.instance;
     }
 
-    get(req, res, next){
-        try{
+    get(req, res, next) {
+        try {
             console.log("Inside get method of Trainee Controller");
-            res.send({
+            res.status(200).json({
                 message: "Trainer fetched succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
-
+        } catch (err) {
+            console.log(`Error Occured ${err}`)
         }
     }
-    create(req, res, next){
-        try{
+    create(req, res, next) {
+        try {
             console.log("Inside post method of Trainee Controller");
-            res.send({
+            res.status(200).json({
                 message: "Trainee created succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
-
+        } catch (err) {
+            console.log(`Error Occured ${err}`)
         }
     }
-    update(req, res, next){
-        try{
+    update(req, res, next) {
+        try {
             console.log("Inside update method of Trainee Controller");
-            res.send({
+            res.status(200).json({
                 message: "Trainee updated succesfully",
-                data : [
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
-
+        } catch (err) {
+            console.log(`Error Occured ${err}`)
         }
     }
 
-    delete(req, res, next){
-        try{
+    delete(req, res, next) {
+        try {
             console.log("Inside post method of Trainee Controller");
-            res.send({
-                message: "Trainee created succesfully",
-                data : [
+            res.status(200).json({
+                message: "Trainee Deleted succesfully",
+                data: [
                     {
-                       name : "Sumit",
-                       address: "Noida" 
+                        name: "Sumit",
+                        address: "Noida"
                     }
                 ]
             })
-        }catch(err){
-
+        } catch (err) {
+            console.log(`Error Occured ${err}`)
         }
     }
 
