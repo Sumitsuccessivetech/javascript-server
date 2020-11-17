@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 
-
 class Database {
     static open (mongoURL) {
         return new Promise((resolve,reject)=> {
