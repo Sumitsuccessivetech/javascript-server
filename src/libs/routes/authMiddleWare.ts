@@ -7,7 +7,7 @@ export default (module, permissionType) => (req, res, next) => {
         const token = req.headers.authorization;
         if (token !== undefined) {
             const user = jwt.verify(token, key);
-            const result = hasPermission(module, user.Role, permissionType);
+            const result = hasPermission(module, user.role, permissionType);
             if (result)
                 next();
             else {
@@ -26,7 +26,7 @@ export default (module, permissionType) => (req, res, next) => {
     }
     catch (err) {
         next({
-            message: err
+            message: err.message
         });
     }
 };
