@@ -1,4 +1,6 @@
  import { IPermissions, IUsers } from './interface';
+
+export const key='qwertyuiopasdfghjklzxcvbnm123456';
 export const Permission: IPermissions = {
     'getUsers': {
         all: ['head-trainer'],
