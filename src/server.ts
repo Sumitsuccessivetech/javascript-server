@@ -35,23 +35,22 @@ class Server {
         return this;
     }
     run() {
-        const { app, config: { port } } = this;
-        Database.open('mongodb://localhost:27017/express-training')
+        const { app, config: { port, MONGO_URL } } = this;
+        Database.open(MONGO_URL)
             .then((res) => {
-                console.log('Succesfully connected to Mongo');
                 app.listen(port, (err) => {
                     if (err) {
                         console.log(err);
                     }
                     else {
                         console.log(`App is running on port ${port}`);
-                         Database.disconnect();
+                        Database.disconnect();
                     }
                 });
             })
-            .catch (err => console.log(err));
-            return this;
-         
+            .catch(err => console.log(err));
+        return this;
+
     }
 }
 

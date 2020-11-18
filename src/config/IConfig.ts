@@ -1,6 +1,6 @@
 interface IConfig{
     PORT : number;
     NODE_ENV : String;
-    mongoURL: String
+    MONGO_URL: String;
 }
 export {IConfig};

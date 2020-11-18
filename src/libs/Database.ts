@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
 
 class Database {
-    static open(mongoURL) {
+    static open(MONGO_URL) {
         return new Promise((resolve, reject) => {
-            mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+            mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
                     reject(err);
@@ -14,7 +14,12 @@ class Database {
         });
     }
     static disconnect() {
-        console.log('Inside disconnect');
+        mongoose.disconnect(err => {
+            if (err) {
+                console.log(err);
+            }
+        console.log('Database Disconnected!');
+    });
     }
 }
 export default Database;
