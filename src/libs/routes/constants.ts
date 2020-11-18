@@ -1,15 +1,16 @@
- 
-import { IPermissions, IUsers } from './interface';
+ import { IPermissions, IUsers } from './interface';
 export const Permission: IPermissions = {
     'getUsers': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
         write: ['trainer'],
         Delete: [ ],
-    }
+    },
+    
+
 };
 
-export const users: IUsers[] = [
+export const user: IUsers[] = [
     {
         traineeEmail : 'sumit.upadhyay@successive.tech',
         reviewerEmail : 'chirag.arora@successive.tech'
