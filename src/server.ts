@@ -5,10 +5,10 @@ import notFoundRoutes from './libs/routes/notFoundRoutes';
 import mainRouter from './router';
 
 class Server {
-
     private app: any;
     constructor(private config) {
         this.app = express();
+
     }
 
     public initBodyParser() {

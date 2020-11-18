@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "extra": "babel-node extra",
-
     "start": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
     "nodemon": "nodemon ./dist/index.js",
     "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
@@ -24,7 +23,10 @@
   "homepage": "https://github.com/Sumitsuccessivetech/javascript-server#readme",
   "dependencies": {
     "@types/express": "^4.17.8",
-    "@types/node": "^14.14.3"
+    "@types/node": "^14.14.3",
+    "express": "^4.17.1",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import {traineeRouter} from './controllers/trainee';
+import traineeRoutes from './controllers/trainee/routes';
 
 const mainRouter= Router();
 
-mainRouter.use('/trainee', traineeRouter);
+mainRouter.use('/trainee', traineeRoutes);
 
 export default mainRouter;
