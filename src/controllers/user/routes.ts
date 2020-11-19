@@ -4,6 +4,7 @@ import validation  from './validation'
 import validationHandler from '../../libs/routes/validationHandler';
 import UserController from './controller';
 import { getUsers, getDetails } from '../constants';
+import { config } from 'dotenv/types';
 
 const UserRouter = express.Router();
 

@@ -1,8 +1,9 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { notFoundHandler, errorHandler } from './libs/routes';
+import * as express from 'express';
+import * as bodyparser from 'body-parser';
+import { errorHandler } from './libs/routes';
+import notFoundRoutes from './libs/routes/notFoundRoutes';
+import mainRouter from './router';
 import Database from './libs/Database'
-import mainRouter from './router'
 
 class Server {
     private app: any;
@@ -10,8 +11,10 @@ class Server {
         this.app = express();
 
     }
+
     public initBodyParser() {
-        this.app.use(bodyParser.json());
+        this.app.use(bodyparser.json());
+        this.app.use(bodyparser.urlencoded({ extended: false }));
     }
     bootstrap() {
         this.initBodyParser();
@@ -25,25 +28,29 @@ class Server {
             next();
         });
         this.app.use('/api', mainRouter);
-        this.app.use(notFoundHandler);
+        this.app.use(notFoundRoutes);
         this.app.use(errorHandler);
         return this;
     }
     run() {
-        const { app, config: { PORT, MONGO_URL } } = this;
-        Database.open('mongodb://localhost:27017/express-training')
+        const { app, config: { port, MONGO_URL } } = this;
+        Database.open(MONGO_URL)
+
             .then((res) => {
-                console.log("Successfully connected to mongo")
-                app.listen(PORT, (err) => {
+                console.log('Succesfully connected to Mongo');
+                app.listen(port, (err) => {
                     if (err) {
                         console.log(err);
                     }
-                    console.log(`App is running on port ${PORT}`);
+                    else {
+                        console.log(`App is running on port ${port}`);
+                    }
                 });
-
             })
             .catch(err => console.log(err));
-    }
+        return this;
 
+    }
 }
+
 export default Server;

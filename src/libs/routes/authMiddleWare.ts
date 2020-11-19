@@ -1,27 +1,35 @@
+import { config } from 'dotenv/types';
 import * as jwt from 'jsonwebtoken';
+import { key } from './constants';
 import hasPermission from './permission';
-import { Response, NextFunction } from 'express'
-import IRequest from '..//../IRequest'
-
 export default (module, permissionType) => (req, res, next) => {
     try {
+        console.log('config is', module, permissionType);
         const token = req.headers.authorization;
-        const secretKey = 'qwertyuiopasdfghjklzxcvbnm123456';
-        const decodeUser = jwt.verify(token, secretKey);
-        req.userDataToken = decodeUser;
-        console.log(req.userDataToken)
-        const valOfPermission = hasPermission(module, decodeUser.docs.role, permissionType);
-        if (valOfPermission) {
-            next();
+        if (token !== undefined) {
+            const user = jwt.verify(token, key);
+            const result = hasPermission(module, user.role, permissionType);
+            res.locals.users = user;
+            if (!result)
+            
+                next();
+            else {
+                next({
+                    error: 'Unauthorised access',
+                    status: 403,
+                    message: 'User is Not authorized'
+                });
+            }
+        } else {
+            next({
+                error: 'Unauthorised Access',
+                message: "Please Provide Token"
+            });
         }
-
-
-    } catch (err) {
-        next({
-            error: 403,
-            message: 'Unauthorised Access'
-        });
-
     }
-
-};   
+    catch (err) {
+        next({
+            message: err.message
+        });
+    }
+};

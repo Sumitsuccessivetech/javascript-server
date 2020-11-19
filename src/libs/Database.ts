@@ -1,14 +1,10 @@
 import * as mongoose from 'mongoose';
-import seedData from './seedData'
+import seedData from './seedData';
 
 class Database {
-    static open(mongoURL) {
+    static open(MONGO_URL) {
         return new Promise((resolve, reject) => {
-            mongoose.set('useUnifiedTopology', true);
-            mongoose.set('useNewUrlParser', true);
-            mongoose.set('useCreateIndex', true);
-            mongoose.connect(mongoURL,  (err) => {
-
+            mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
                     reject(err);
@@ -21,12 +17,12 @@ class Database {
         });
     }
     static disconnect() {
-        mongoose.disconnect((err) => {
+        mongoose.disconnect(err => {
             if (err) {
                 console.log(err);
             }
-            console.log('MongoDB connection close');
-        });
+        console.log('Database Disconnected!');
+    });
     }
 }
 export default Database;
