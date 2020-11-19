@@ -16,7 +16,6 @@ class Server {
         this.app.use(bodyparser.json());
         this.app.use(bodyparser.urlencoded({ extended: false }));
     }
-
     bootstrap() {
         this.initBodyParser();
         this.setupRouts();
