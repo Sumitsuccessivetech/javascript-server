@@ -37,7 +37,9 @@ class Server {
     run() {
         const { app, config: { port, MONGO_URL } } = this;
         Database.open(MONGO_URL)
+
             .then((res) => {
+                console.log('Succesfully connected to Mongo');
                 app.listen(port, (err) => {
                     if (err) {
                         console.log(err);

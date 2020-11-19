@@ -1,9 +1,9 @@
-import { IConfig } from './IConfig';
+import * as dotenv from 'dotenv';
 
-const envVars = require('dotenv').config()
+const envVars = dotenv.config();
 console.log("inside config", envVars);
 
 const { PORT, NODE_ENV, MONGO_URL } = envVars.parsed;
 
-export default Object.freeze({ port: PORT, env: NODE_ENV || 'local' })
+export default Object.freeze({ port: PORT, env: NODE_ENV, MONGO_URL: MONGO_URL || 'local' });
 
