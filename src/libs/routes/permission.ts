@@ -1,6 +1,6 @@
 import { Permission } from '../../libs/routes/constants';
 
-export default function hasPermission1(moduleName: string, role: string, permissionType: string): boolean {
+export default function hasPermission(moduleName: string, role: string, permissionType: string): boolean {
 
     console.log(moduleName);
     const assent = Permission[moduleName];
