@@ -1,60 +1,107 @@
 import * as mongoose from 'mongoose';
-import { DocumentQuery, Query } from 'mongoose';
-import IUserModel from '../user/IUserModel';
 
-export default class VersionableRepository <D extends mongoose.Document, M extends mongoose.Model<D>> {
-    public static generateObjectId() {
-        return String(mongoose.Types.ObjectId());
-    }
-
-    public model: M;
+export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
+    private model: M;
 
     constructor(model) {
         this.model = model;
     }
-    public async userCreate(data: IUserModel): Promise<D> {
+
+    public static generateObjectId(): string {
+        return String(mongoose.Types.ObjectId());
+    }
+
+    public async count() {
+        return await this.model.countDocuments();
+    }
+
+    public async findOne(query: object) {
+        return await this.model.findOne(query).lean();
+    }
+
+    public async create(data: any, creator): Promise<D> {
         const id = VersionableRepository.generateObjectId();
-        const model = new this.model({
+
+        const modelData = {
             ...data,
-            _id: id,
             originalId: id,
-        });
-        return await model.save();
+            createdBy: creator,
+            _id: id,
+        };
+
+        return await this.model.create(modelData);
     }
-    public count(query: any): Query<number> {
-        const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.count(finalQuery);
+
+    public async getUser(data: any) {
+        return await this.model.findOne(data);
     }
-    public findOne(query: any): DocumentQuery<D, D> {
-        const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.findOne(finalQuery);
+
+    public async update(id: string, dataToUpdate: any, updator) {
+
+        let originalData;
+        // console.log()
+        await this.findOne({ _id: id, updatedAt: null, deletedAt: null })
+            .then((data) => {
+                if (data === null) {
+                    throw '';
+                }
+                originalData = data;
+                const newId = VersionableRepository.generateObjectId();
+                const oldId = originalData._id;
+                const oldModel = {
+                    ...originalData,
+                    updatedAt: Date.now(),
+                    updatedBy: updator,
+                    deletedAt: Date.now(),
+                    deletedBy: updator,
+                };
+
+                const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), dataToUpdate);
+
+                newData._id = newId;
+                newData.createdAt = Date.now();
+
+                this.model.updateOne({ _id: oldId }, oldModel)
+                    .then((res) => {
+                        if (res === null) {
+                            throw '';
+                        }
+                        else
+                            return res;
+                    });
+
+                this.model.create(newData);
+
+
+            });
     }
-    public findAll(query: any, projection: any, options: any): DocumentQuery<D[], D> {
-        const finalQuery = {deletedAt: undefined, ...query};
-        return this.model.find(finalQuery, projection, options);
-    }
-    public invalidate(id: string): DocumentQuery<D, D> {
-        const query: any = { originalId: id, deletedAt: { $exists: false} };
-        const data: any = { deletedAt: Date.now() };
-        return this.model.updateOne(query, data);
-    }
-    public async delete(id: string): Promise<D> {
-        const previous = await this.findOne({ originalId: id, deletedAt: undefined});
-        if (previous) {
-            return await this.invalidate(id);
-        }
-    }
-    public async userUpdate(data: any): Promise<D> {
-        const previous = await this.findOne({ originalId: data.originalId, deletedAt: undefined});
-        console.log('previous: ', previous);
-        if (!previous) {
-            return undefined;
-        }
-        await this.invalidate(data.originalId);
-        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data);
-        newData._id = VersionableRepository.generateObjectId();
-        delete newData.deletedAt;
-        const model = new this.model(newData);
-        return await model.save();
+
+    public async delete(id: string, remover: string) {
+
+        let originalData;
+
+        await this.findOne({ _id: id, deletedAt: null })
+            .then((data) => {
+                if (data === null) {
+                    throw '';
+                }
+
+                originalData = data;
+                const oldId = originalData._id;
+
+                const modelDelete = {
+                    ...originalData,
+                    deletedAt: Date.now(),
+                    deletedBy: remover,
+                };
+
+                this.model.updateOne({ _id: oldId }, modelDelete)
+                    .then((res) => {
+                        if (res === null) {
+                            throw '';
+                        }
+                    });
+
+            });
     }
 }

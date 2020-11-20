@@ -6,18 +6,18 @@ export default () => {
         .then(res => {
             if (res === 0) {
                 console.log('Data seeding in progress');
-                userRepository.create({
+                userRepository.createUser({
                     name: 'head-trainer',
                     email: 'headtrainer@successivetech',
                     role: 'head-trainer',
                     password: 'training@123'
-                });
-                userRepository.create({
+                },undefined);
+                userRepository.createUser({
                     name: 'trainer',
                     email: 'trainer@successivetech',
                     role: 'trainer',
                     password: 'training@123'
-                });
+                },undefined);
             }
         })
         .catch(err => console.log(err));

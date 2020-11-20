@@ -12,25 +12,28 @@ export default class UserRepository extends
     constructor() {
         super(userModel);
     }
-    public static readOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query);
+
+    public createUser(data, creator) {
+        return super.create(data, creator);
     }
 
-    public create(data): Promise<IUserModel> {
-        console.log('UserRepository create', data);
-        const id = UserRepository.generateObjectID();
-        const model = new userModel({
-            _id: id,
-            ...data,
-            originalId: id,
-        });
-        return model.save();
+    public updateUser(id, data, updator) {
+        return super.update(id, data, updator);
     }
 
-     public async count() {
-        return await userModel.countDocuments();
+    public getUser(data) {
+        return super.getUser(data);
     }
-    public countFetched(query) {
-        return super.count(query);
+
+    public deleteData(id, remover) {
+        return super.delete(id, remover);
+    }
+
+    public findone(data) {
+        return super.findOne(data);
+    }
+
+    public countData() {
+        return super.count();
     }
 }
