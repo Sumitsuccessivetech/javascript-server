@@ -9,7 +9,7 @@ export default class UserRepository extends
     public static generateObjectID() {
         return String(mongoose.Types.ObjectId());
     }
-    constructor() {
+      constructor() {
         super(userModel);
     }
 
