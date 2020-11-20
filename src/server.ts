@@ -41,10 +41,10 @@ class Server {
                 app.listen(port, (err) => {
                     if (err) {
                         console.log(err);
+                        Database.disconnect();
                     }
                     else {
                         console.log(`App is running on port ${port}`);
-                        Database.disconnect();
                     }
                 });
             })

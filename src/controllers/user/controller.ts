@@ -50,7 +50,7 @@ class UserController {
     }
     me(req: IRequest, res: Response, next: NextFunction) {
         const data=res.locals;
-        //console.log(data);
+        console.log(data);
 
         res.send(data);
     }
