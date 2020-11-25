@@ -63,23 +63,44 @@ class UserController {
             });
     }
 
-    // get(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         console.log('Inside get method of User');
-    //         res.send({
-    //             message: 'User fetched succefully',
-    //             data: [{
-    //                 name: 'user1',
+    public async getAll(req: Request, res: Response, next: NextFunction) {
+        let skip: number;
+        let limit: number;
+        let sort: boolean;
 
-    //             },
-    //             {
-    //                 name: 'user2',
-    //             }]
-    //         });
-    //     } catch (err) {
-    //         console.log('Inside err', err);
-    //     }
-    // }
+        if ('limit' in req.query) {
+            limit = Number(req.query.limit);
+        } else {
+            limit = 10;
+        }
+        if ('skip' in req.query) {
+            skip = Number(req.query.limit);
+        } else {
+            skip = 0;
+        }
+        if ('sort' in req.query) {
+            sort = true;
+        } else {
+            sort = false;
+        }
+
+        const user = new UserRepository();
+        await user.getallTrainee(skip, limit, sort)
+        .then((data) => {
+            res.status(200).send({
+                message: 'Trainees fetched successfully',
+                'count': data[1],
+                'data': data
+            });
+        })
+        .catch((err) => {
+            res.send({
+                message : 'Unable to fetch Trainees',
+                status : 404
+            });
+        });
+    }
+
     public async create(req: Request, res: Response, next: NextFunction) {
         const {  email, name, role, password } = req.body;
         const creator = req.userData._id;
