@@ -11,8 +11,6 @@ export default (module, permissionType) => (req, res, next) => {
             console.log('user is ',user);
             const result = hasPermission(module, user.docs.role, permissionType);
             req.userData = user;
-           // if(user.role){
-               // console.log(user.role);
             if (result) {
                 next();
             } else {
@@ -29,7 +27,6 @@ export default (module, permissionType) => (req, res, next) => {
             });
         }
     }
-//}
     catch (err) {
         next({
             message: err.message

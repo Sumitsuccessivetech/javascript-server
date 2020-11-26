@@ -27,11 +27,11 @@ class UserController {
                     })
                 }
                 else {
-                    res.send({
+                    next({
+                        error: 'Not found',
                         status: 404,
-                        message: 'Password not exists in DB'
-
-                    });
+                        message: 'Password not Mtached with DB'
+                    })
                 }
             }
             else {
