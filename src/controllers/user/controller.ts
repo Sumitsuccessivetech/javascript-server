@@ -41,15 +41,10 @@ class UserController {
                     message: 'Email Not Exist in DB'
                 });
             };
-            const secretKey  = 'qwertyuiopasdfghjklzxcvbnm123456';
-            const createToken = jwt.sign({ docs }, secretKey, {expiresIn:'1000s'});
-            res.send(createToken);
-            req.userData = createToken;
-            console.log(req.userData);
         });
     }
     me(req: IRequest, res: Response, next: NextFunction) {
-        const data=res.locals;
+        const data=req.userData;
         //console.log(data);
 
         res.send(data);
