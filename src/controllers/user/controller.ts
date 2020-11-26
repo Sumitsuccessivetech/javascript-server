@@ -15,39 +15,43 @@ class UserController {
     }
 
     login(req: IRequest, res: Response, next: NextFunction) {
-
-        const { email , password } = req.body;
+    try{ const { email, password } = req.body;
         userModel.findOne({ email: email }, (err, docs) => {
             if (docs) {
-                if ( password === docs.password) { 
-                   const token = jwt.sign({docs},'qwertyuiopasdfghjklzxcvbnm123456');
+                if (password === docs.password) {
+                    const token = jwt.sign({ docs }, 'qwertyuiopasdfghjklzxcvbnm123456');
                     res.send({
                         data: token,
                         message: 'LoggedIN',
                         status: 200
                     })
                 }
-                 else {
+                else {
                     res.send({
                         status: 404,
                         message: 'Password not exists in DB'
 
-                   });
-                } 
+                    });
+                }
             }
             else {
-                res.send({
+                next({
+                    error: 'Not found',
                     status: 404,
                     message: 'Email Not Exist in DB'
-                });
+                })
             };
         });
     }
+    catch ( err ) {
+        res.send( err );
+    }
+}
     me(req: IRequest, res: Response, next: NextFunction) {
-        const data=req.userData;
-        //console.log(data);
-
-        res.send(data);
+        const data = req.userData;
+        res.json( {
+            data
+       } );
     }
 
     get(req: Request, res: Response, next: NextFunction) {

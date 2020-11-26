@@ -8,12 +8,14 @@ export default (module, permissionType) => (req, res, next) => {
         const token = req.headers.authorization;
         if (token !== undefined) {
             const user = jwt.verify(token, key);
-            const result = hasPermission(module, user.role, permissionType);
-            res.locals.users = user;
-            if (!result)
-            
+            console.log('user is ',user);
+            const result = hasPermission(module, user.docs.role, permissionType);
+            req.userData = user;
+           // if(user.role){
+               // console.log(user.role);
+            if (result) {
                 next();
-            else {
+            } else {
                 next({
                     error: 'Unauthorised access',
                     status: 403,
@@ -27,6 +29,7 @@ export default (module, permissionType) => (req, res, next) => {
             });
         }
     }
+//}
     catch (err) {
         next({
             message: err.message

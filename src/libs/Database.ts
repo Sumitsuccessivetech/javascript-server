@@ -12,7 +12,7 @@ class Database {
                 }
                 console.log("database Connected");
                 seedData();
-                resolve();
+                resolve(undefined);
             });
         });
     }

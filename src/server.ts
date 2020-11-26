@@ -33,8 +33,8 @@ class Server {
         return this;
     }
     run() {
-        const { app, config: { port, MONGO_URL } } = this;
-        Database.open(MONGO_URL)
+        const { app, config: { port, mongo_url } } = this;
+        Database.open(mongo_url)
 
             .then((res) => {
                 console.log('Succesfully connected to Mongo');
