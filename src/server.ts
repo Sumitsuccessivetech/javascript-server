@@ -18,15 +18,14 @@ class Server {
     }
     bootstrap() {
         this.initBodyParser();
-        this.setupRouts();
+        this.setupRoutes();
         return this;
     }
 
-    public setupRouts() {
-        const { app } = this;
-        app.use('/health-check', (req, res) => {
-            console.log("inside Second middleware");
-            res.send("I am OK");
+    public setupRoutes() {
+        this.app.use('/health-check', (req, res, next) => {
+            res.send('I am Ok');
+            next();
         });
         this.app.use('/api', mainRouter);
         this.app.use(notFoundRoutes);
@@ -34,14 +33,15 @@ class Server {
         return this;
     }
     run() {
-        const { app, config: { port, MONGO_URL } } = this;
-        Database.open(MONGO_URL)
+        const { app, config: { port, mongo_url } } = this;
+        Database.open(mongo_url)
 
             .then((res) => {
                 console.log('Succesfully connected to Mongo');
                 app.listen(port, (err) => {
                     if (err) {
                         console.log(err);
+                        Database.disconnect();
                     }
                     else {
                         console.log(`App is running on port ${port}`);

@@ -25,8 +25,9 @@ class traineeController {
             console.log(`Error Occured ${err}`)
         }
     }
-    create(req, res, next) {
-        try {
+  
+    create(req, res, next){
+        try{
             console.log("Inside post method of Trainee Controller");
             res.status(200).json({
                 message: "Trainee created succesfully",
@@ -41,8 +42,10 @@ class traineeController {
             console.log(`Error Occured ${err}`)
         }
     }
-    update(req, res, next) {
-        try {
+  
+    update(req, res, next){
+        try{
+
             console.log("Inside update method of Trainee Controller");
             res.status(200).json({
                 message: "Trainee updated succesfully",

@@ -50,6 +50,18 @@ const config = {
             required: true,
             isObject: true,
         }
+    },
+    login: {
+        email: {
+            required: true,
+            string: true,
+            in: ['body']
+        },
+        password: {
+            required: true,
+            string: true,
+            in: ['body']
+        }
     }
 };
 

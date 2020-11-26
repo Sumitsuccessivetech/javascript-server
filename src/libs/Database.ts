@@ -10,8 +10,9 @@ class Database {
                     reject(err);
                     return;
                 }
+                console.log("database Connected");
                 seedData();
-                resolve();
+                resolve(undefined);
             });
         });
     }
