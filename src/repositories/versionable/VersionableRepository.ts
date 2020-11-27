@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { DocumentQuery } from 'mongoose';
 
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     private model: M;
@@ -14,12 +15,21 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     public async count() {
         return await this.model.countDocuments();
     }
+    public findAll(query: any, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
+        const finalQuery = { deletedAt: undefined, ...query };
+        return this.model.find(finalQuery, projection, options);
+    }
+    public invalidate(id: string): DocumentQuery<D, D> {
+        const query: any = { originalId: id, deletedAt: { $exists: false} };
+        const data: any = { deletedAt: Date.now() };
+        return this.model.updateOne(query, data);
+    }
 
     public async findOne(query: object) {
         return await this.model.findOne(query).lean();
     }
 
-    public async create(data: any, creator): Promise<D> {
+    public async createUser(data: any, creator): Promise<D> {
         const id = VersionableRepository.generateObjectId();
 
         const modelData = {
@@ -40,7 +50,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
         let originalData;
         // console.log()
-        await this.findOne({ _id: id, updatedAt: null, deletedAt: null })
+        await this.findOne({ _id: id, updatedAt: undefined, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
                     throw '';

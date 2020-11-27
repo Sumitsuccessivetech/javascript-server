@@ -13,8 +13,8 @@ export default class UserRepository extends
         super(userModel);
     }
 
-    public createUser(data, creator) {
-        return super.create(data, creator);
+    public create(data, creator) {
+        return super.createUser(data, creator);
     }
 
     public updateUser(id, data, updator) {

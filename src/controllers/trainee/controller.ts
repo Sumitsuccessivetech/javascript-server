@@ -1,89 +1,71 @@
+import { Request, Response, NextFunction } from 'express';
 import UserRepositories from '../../repositories/user/UserRepository';
-class traineeController {
+
+class TraineeController {
     private userRepository;
     constructor() {
         this.userRepository = new UserRepositories();
     }
-    static instance: traineeController
-
+    static instance: TraineeController;
     static getInstance() {
-        if (traineeController.instance) {
-            return traineeController.instance;
+        if (TraineeController.instance) {
+            return TraineeController.instance;
         }
-        traineeController.instance = new traineeController();
-        return traineeController.instance;
+        TraineeController.instance = new TraineeController();
+        return TraineeController.instance;
     }
-
-    public get = async (req, res, next) => {
+    public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside get method of Trainee Controller");
             const extractedData = await this.userRepository.findAll(req.body, {}, {});
-            res.status(200).json({
-                message: "Trainer fetched succesfully",
-                data: [extractedData]
-            })
+            res.status(200).send({
+                message: 'trainee fetched successfully',
+                data: [extractedData],
+                status: 'success',
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            console.log('error is ', err);
         }
     }
-
-    public create = async (req, res, next) => {
+    public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside post method of Trainee Controller");
-            this.userRepository.userCreate(req.body);
-            res.status(200).json({
-                message: "Trainee created succesfully",
+            this.userRepository.create(req.body);
+            res.status(200).send({
+                message: 'trainee created successfully',
+                data: [req.body],
+                status: 'success',
+            });
+        } catch (err) {
+            console.log('error is ', err);
+        }
+    }
+    public update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            this.userRepository.userUpdate(req.body);
+            res.status(200).send({
+                message: 'trainee updated successfully',
                 data: [req.body]
-            })
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            console.log('error is ', err);
         }
     }
-
-    public update = async (req, res, next) => {
+    public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside update method of Trainee Controller");
-            const isIdValid = await this.userRepository.userUpdate(req.body);
-            if (!isIdValid) {
-                return next({
-                    message: 'Id is invalid',
-                    error: 'Id not found',
-                    status: 400
-                });
-            }
-            res.status(200).json({
-                message: "Trainee updated succesfully",
-                data: [req.body]
-            })
-        } catch (err) {
-            console.log(`Error Occured ${err}`)
-        }
-    }
-
-    public delete = async (req, res, next) => {
-        try {
-            console.log("Inside post method of Trainee Controller");
             const id = req.params.id;
-            const isIdValid = await this.userRepository.delete(id);
-            if (!isIdValid) {
-                return next({
-                    message: 'Id is invalid',
-                    error: 'Id not found',
-                    status: 400
-                });
-            }
-            res.status(200).json({
-                message: "Trainee Deleted succesfully",
+            this.userRepository.delete(id);
+            res.status(200).send({
+                message: 'trainee deleted successfully',
                 data: [
                     {
-                        Id: id
+                        Id: req.params.id
                     }
-                ]
-            })
+                ],
+                status: 'success',
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            console.log('error is ', err);
         }
     }
-
 }
-export default traineeController.getInstance();
+
+export default TraineeController.getInstance();
