@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 import { userModel } from '../../repositories/user/UserModel'
 import IRequest from '../../IRequest';
 import UserRepository from '../../repositories/user/UserRepository';
-import authMoiddleware from '../../libs/routes/authMiddleWare'
 
 class UserController {
     static instance: UserController;
@@ -53,10 +52,6 @@ class UserController {
     }
 
    public async me(req: IRequest, res: Response, next: NextFunction) {
-        //const data = req.userData;
-        //res.json( {
-            //data
-      // } );
       const id = req.query;
         const user = new UserRepository();
 
@@ -85,10 +80,8 @@ class UserController {
     }
    public async create(req: IRequest, res: Response, next: NextFunction) {
         const {  email, name, role, password } = req.body;
-        const creator = req.userData._id;
-
         const user = new UserRepository();
-        await user.createUser({ email, name, role, password }, creator)
+        await user.createUser({ email, name, role, password }, req.headers.user)
             .then(() => {
                 console.log("body is", req.body);
                 res.send({
@@ -105,12 +98,11 @@ class UserController {
     }
     public async update(req: IRequest, res: Response, next: NextFunction) {
         const { id, dataToUpdate } = req.body;
-        const updator = req.userData._id;
         console.log('id',id);
         console.log('dataToUpdate',dataToUpdate);
         
         const user = new UserRepository();
-        await user.updateUser( id, dataToUpdate, updator)
+        await user.updateUser( id, dataToUpdate, req.headers.user)
         .then((result) => {
             res.send({
                 message: 'User Updated',
@@ -126,9 +118,8 @@ class UserController {
     }
     public async delete(req: IRequest, res: Response, next: NextFunction) {
         const  id  = req.params.id;
-        const remover = req.userData._id;
         const user = new UserRepository();
-        await user.deleteData(id, remover)
+        await user.deleteData(id, req.headers.user)
         .then((result) => {
             res.send({
                 message: 'Deleted successfully',

@@ -2,7 +2,6 @@ import { Router } from 'express';
 import TraineeController from './controller';
 import validationHandler from '../../libs/routes/validationHandler';
 import Validation from './validation';
-//import authMiddleWare from '../../libs/routes/authMiddleWare';
 
 const traineeRouter = Router();
 traineeRouter.route('/')

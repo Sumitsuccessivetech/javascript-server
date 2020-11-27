@@ -28,7 +28,7 @@ class TraineeController {
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            this.userRepository.create(req.body);
+            this.userRepository.create(req.body, req.headers.user);
             res.status(200).send({
                 message: 'trainee created successfully',
                 data: [req.body],
@@ -40,7 +40,7 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            this.userRepository.userUpdate(req.body);
+            this.userRepository.userUpdate(req.body, req.headers.user);
             res.status(200).send({
                 message: 'trainee updated successfully',
                 data: [req.body]
@@ -52,7 +52,7 @@ class TraineeController {
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            this.userRepository.delete(id);
+            this.userRepository.delete(id, req.headers.user);
             res.status(200).send({
                 message: 'trainee deleted successfully',
                 data: [

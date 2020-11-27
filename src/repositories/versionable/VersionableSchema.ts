@@ -10,7 +10,6 @@ export class VersionableSchema extends mongoose.Schema {
           },
           deletedAt: {
             required: false,
-            default: null,
             type: Date,
           },
           originalId: {
@@ -19,22 +18,18 @@ export class VersionableSchema extends mongoose.Schema {
           },
           updatedAt: {
             required: false,
-            default: null,
             type: String,
           },
           updatedBy: {
             required: false,
-            default: null,
             type: String,
           },
           deletedBy: {
             required: false,
-            default: null,
             type: String,
           },
           createdBy: {
             required: false,
-            default: null,
             type: String,
           },
         }, options);
