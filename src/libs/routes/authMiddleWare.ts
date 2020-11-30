@@ -7,22 +7,31 @@ export default (module, permissionType) => (req, res, next) => {
     try {
         console.log('config is', module, permissionType);
         const token = req.headers.authorization;
-        if (token !== undefined){
-            const user = jwt.verify(token, key);
+        if (token !== undefined) {
+            const decodeUser = jwt.verify(token, key);
+            console.log('user is ', decodeUser);
+            const result = hasPermission(module, decodeUser.role, permissionType);
+            req.userData = decodeUser.result;
             const userRepository = new UserRepository();
-            userRepository.findOne({ _id: user._id })
-            const result = hasPermission(module, user.role, permissionType);
-            res.locals.users = user;
-            if (!result)
-            
-                next();
-            else {
-                next({
-                    error: 'Unauthorised access',
-                    status: 403,
-                    message: 'User is Not authorized'
-                });
-            }
+            userRepository.findOne({ id: decodeUser.id })
+                .then((userData) => {
+                    if (!userData) {
+                        throw 'User Not Found';
+                    }
+                    else if (result) {
+                        next()
+                    }else {
+                        req.query = decodeUser.id;
+                        req.userDataToken = userData;
+                        next();
+                    }
+                })
+                .catch ((err) => {
+                        next({
+                            error: 'user is not found',
+                            code: 400
+                        });
+                    });
         } else {
             next({
                 error: 'Unauthorised Access',

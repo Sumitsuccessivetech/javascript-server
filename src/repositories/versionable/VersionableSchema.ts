@@ -9,6 +9,7 @@ export class VersionableSchema extends mongoose.Schema {
             type: Date,
           },
           deletedAt: {
+            required: false,
             type: Date,
           },
           originalId: {

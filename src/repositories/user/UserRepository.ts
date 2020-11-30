@@ -14,16 +14,11 @@ export default class UserRepository extends
         super(userModel);
     }
 
-    public createUser(data, creator) {
-        const rawPassword = data.password;
-        const saltRounds = 10;
-        const salt = bcrypt.genSaltSync(saltRounds);
-        const hashedPassword = bcrypt.hashSync(rawPassword, salt);
-        data.password = hashedPassword;
+    public create(data, creator) {
         return super.create(data, creator);
     }
 
-    public updateUser(id, data, updator) {
+    public update(id, data, updator) {
         if ('password' in data) {
             const rawPassword = data.password;
             const saltRounds = 10;
@@ -34,7 +29,7 @@ export default class UserRepository extends
         return super.update(id, data, updator);
     }
 
-    public getUser(data) {
+    public get(data) {
         return super.getUser(data);
     }
 
