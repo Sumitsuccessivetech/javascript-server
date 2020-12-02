@@ -6,7 +6,10 @@ import UserRepository from '../../repositories/user/UserRepository';
 
 class UserController {
     static instance: UserController;
-
+    private userRepository;
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
     static getInstance() {
         if (UserController.instance) {
             return UserController.instance;
@@ -20,7 +23,7 @@ class UserController {
 
         const user = new UserRepository();
 
-        await user.getUser({ email })
+        await user.get({ email })
             .then((userData) => {
                 if (userData === null) {
                     res.status(404).send({
@@ -55,7 +58,7 @@ class UserController {
       const id = req.query;
         const user = new UserRepository();
 
-        await user.getUser({ id })
+        await user.get({ id })
             .then((data) => {
                 res.status(200).send({
                     message: 'User Fetched successfully',
@@ -65,73 +68,92 @@ class UserController {
             });
     }
 
-    get(req: IRequest, res: Response, next: NextFunction) {
+    public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const userRepository = new UserRepository();
-            const extractedData =  userRepository.findAll(req.body, {}, {});
-            res.status(200).send({
-                message: 'user fetched successfully',
-                data: [extractedData],
-                status: 'success',
+            const user = await this.userRepository.findAll(req.body, {}, {});
+            if(!user){
+                next({
+                    message: 'User Not Fetched',
+                    error: 'Can not Find user',
+                    status: 404
+                })
+            }
+            res.send({
+                message: 'trainee fetched successfully',
+                data: user,
+                status: 200,
             });
         } catch (err) {
-            console.log('error: ', err);
+            next({
+                message: 'Error while Fetching User'
+            })
         }
     }
-   public async create(req: IRequest, res: Response, next: NextFunction) {
-        const {  email, name, role, password } = req.body;
-        const user = new UserRepository();
-        await user.createUser({ email, name, role, password }, req.headers.user)
-            .then(() => {
-                console.log("body is", req.body);
-                res.send({
-                    message: 'User Created Successfully!',
-                    data: {
-                        'name': name,
-                        'email': email,
-                        'role': role,
-                        'password': password
-                    },
-                    code: 200
-                });
+    public create = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await this.userRepository.create(req.body, req.headers.user);
+            if (!user) {
+                next({
+                    message: 'User Not Created',
+                    error: 'user Not Found',
+                    status: 404
+
+                })
+            }
+            res.send({
+                message: 'trainee created successfully',
+                data: user,
+                status: 200,
             });
+        } catch (err) {
+            next({
+                message: 'Error while Creating User'
+            })
+        }
     }
-    public async update(req: IRequest, res: Response, next: NextFunction) {
-        const { id, dataToUpdate } = req.body;
-        console.log('id',id);
-        console.log('dataToUpdate',dataToUpdate);
-        
-        const user = new UserRepository();
-        await user.updateUser( id, dataToUpdate, req.headers.user)
-        .then((result) => {
+    public update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const id = req.params.id;
+            const user = await this.userRepository.userUpdate(id, req.headers.user);
+            if (!id) {
+                next({
+                    message: 'User Not Updated',
+                    error: 'id is Required',
+                    status: 404
+                })
+            }
             res.send({
-                message: 'User Updated',
-                code: 200
+                message: 'trainee updated successfully',
+                data: user,
+                status: 200,
             });
-        })
-        .catch ((err) => {
-            res.send({
-                error: 'User Not Found for update',
-                code: 404
-            });
-        });
+        } catch (err) {
+            next({
+                message: 'Error while Updating User'
+            })
+        }
     }
-    public async delete(req: IRequest, res: Response, next: NextFunction) {
-        const  id  = req.params.id;
-        const user = new UserRepository();
-        await user.deleteData(id, req.headers.user)
-        .then((result) => {
+    public delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const id = req.params.id;
+            const user = await this.userRepository.delete(id, req.headers.user);
+            if (!id) {
+                next({
+                    message: 'User Not Updated',
+                    error: 'id is Required',
+                    status: 404
+                })
+            }
             res.send({
-                message: 'Deleted successfully',
-                code: 200
+                message: 'trainee deleted successfully',
+                data: user,
+                status: 200,
             });
-        })
-        .catch ((err) => {
-            res.send({
-                message: 'User not found to be deleted',
-                code: 404
-            });
-        });
+        } catch (err) {
+            next({
+                message: 'Error while Deleting User'
+            })
+        }
     }
 }
 

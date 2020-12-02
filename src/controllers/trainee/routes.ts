@@ -7,8 +7,9 @@ const traineeRouter = Router();
 traineeRouter.route('/')
 .get(TraineeController.get)
 .post(TraineeController.create)
-.put(TraineeController.update);
 traineeRouter.route('/:id')
 .delete(validationHandler(Validation.Delete), TraineeController.delete);
+traineeRouter.route('/')
+.put(validationHandler(Validation.update), TraineeController.update);
 
 export default traineeRouter;

@@ -16,11 +16,11 @@ class TraineeController {
     }
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = await this.userRepository.findAll(req.body, {}, {});
+            const user = await this.userRepository.findAll(req.body);
             if(!user){
                 next({
-                    message: 'User Not Fetched',
-                    error: 'Can not Find user',
+                    message: 'trainee Not Fetched',
+                    error: 'Can not Find trainee',
                     status: 404
                 })
             }
@@ -31,16 +31,17 @@ class TraineeController {
             });
         } catch (err) {
             next({
-                message: 'Error while Fetching User'
+                message: 'Error while Fetching trainee'
             })
         }
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = await this.userRepository.create(req.body, req.headers.user);
+            const creator= req.headers.user;
+            const user = await this.userRepository.create(req.body, creator );
             if (!user) {
                 next({
-                    message: 'User Not Created',
+                    message: 'trainee Not Created',
                     error: 'user Not Found',
                     status: 404
 
@@ -53,17 +54,18 @@ class TraineeController {
             });
         } catch (err) {
             next({
-                message: 'Error while Creating User'
+                message: 'Error while Creating trainee'
             })
         }
     }
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = req.params.id;
-            const user = await this.userRepository.userUpdate(id, req.headers.user);
+            const data=req.body
+            const id = req.body.id;
+            const user = await this.userRepository.update(data, req.headers.user);
             if (!id) {
                 next({
-                    message: 'User Not Updated',
+                    message: 'trainee Not Updated',
                     error: 'id is Required',
                     status: 404
                 })
@@ -75,29 +77,29 @@ class TraineeController {
             });
         } catch (err) {
             next({
-                message: 'Error while Updating User'
+                message: 'Error while Updating trainee'
             })
         }
     }
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const id = req.params.id;
-            const user = await this.userRepository.delete(id, req.headers.user);
+           const id = req.params.id;
+            await this.userRepository.delete(id, req.headers.user);
             if (!id) {
                 next({
-                    message: 'User Not Updated',
+                    message: 'trainee Not Updated',
                     error: 'id is Required',
                     status: 404
                 })
             }
             res.send({
                 message: 'trainee deleted successfully',
-                data: user,
+                data: req.params.id,
                 status: 200,
             });
         } catch (err) {
             next({
-                message: 'Error while Deleting User'
+                message: 'Error while Deleting trainee'
             })
         }
     }

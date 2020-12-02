@@ -11,28 +11,31 @@ export default (module, permissionType) => (req, res, next) => {
         if (token !== undefined) {
             const decodeUser = jwt.verify(token, key);
             console.log('user is ', decodeUser);
-            const result = hasPermission(module, decodeUser.role, permissionType);
-            req.userData = decodeUser.result;
+            // req.userData = decodeUser.result;
             const userRepository = new UserRepository();
             userRepository.findOne({ id: decodeUser.id })
                 .then((userData) => {
                     if (!userData) {
                         throw 'User Not Found';
                     }
-                    else if (result) {
-                        next()
-                    }else {
+                    else if (!hasPermission(module, decodeUser.role, permissionType)) {
+                        next({
+                            error: 'Unauthorised Access',
+                            message: "user are not authorized",
+                            status: 403
+                        });
+                    } else {
                         req.query = decodeUser.id;
                         req.userDataToken = userData;
                         next();
                     }
                 })
-                .catch ((err) => {
-                        next({
-                            error: 'user is not found',
-                            code: 400
-                        });
+                .catch((err) => {
+                    next({
+                        error: 'user is not found',
+                        code: 400
                     });
+                });
         } else {
             next({
                 error: 'Unauthorised Access',
@@ -42,7 +45,9 @@ export default (module, permissionType) => (req, res, next) => {
     }
     catch (err) {
         next({
-            message: err.message
+            message: 'User is Invalid',
+            error: 'Uthentication Failed',
+            status: 403
         });
     }
 };

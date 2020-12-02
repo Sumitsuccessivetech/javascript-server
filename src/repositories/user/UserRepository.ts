@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
+import { query } from 'express';
 
 export default class UserRepository extends
     VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
@@ -9,23 +10,23 @@ export default class UserRepository extends
     public static generateObjectID() {
         return String(mongoose.Types.ObjectId());
     }
-      constructor() {
+    constructor() {
         super(userModel);
     }
 
     public create(data, creator) {
-        return super.createUser(data, creator);
+        return super.create(data, creator);
     }
 
-    public updateUser(id, data, updator) {
-        return super.update(id, data, updator);
+    public update(id, updator) {
+        return super.update(id, updator);
     }
 
-    public getUser(data) {
-        return super.getUser(data);
+    public get(data) {
+        return super.get(data);
     }
 
-    public deleteData(id, remover) {
+    public delete(id, remover) {
         return super.delete(id, remover);
     }
 
@@ -33,7 +34,7 @@ export default class UserRepository extends
         return super.findOne(data);
     }
 
-    public countData() {
-        return super.count();
+    public count() {
+        return super.count(query);
     }
 }
