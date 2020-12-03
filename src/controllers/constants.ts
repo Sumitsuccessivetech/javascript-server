@@ -1,4 +1,5 @@
 import { IUsers, IPermissions } from './interface';
+
 const permissions: IPermissions = {
   'getUsers': {
     all: ['head-trainer'],
@@ -26,5 +27,15 @@ const users: IUsers[] =
       reviewerEmail: 'reviewer.der@successive.tech',
     }
   ]
-let { getUsers, getDetails } = permissions;
-export { getUsers, getDetails, users }
+
+
+const payLoad = {
+  'iss': 'Online JWT Builder',
+  'iat': 1604994214,
+  'exp': 1636530214,
+  'aud': 'www.successive.com',
+  'sub': 'jrocket@example.com',
+  'email': '',
+  'password': ''
+  };
+export { permissions, users, payLoad}

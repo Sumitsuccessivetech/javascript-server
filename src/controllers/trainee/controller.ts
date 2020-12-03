@@ -17,7 +17,7 @@ class TraineeController {
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = await this.userRepository.findAll(req.body);
-            if(!user){
+            if (!user) {
                 next({
                     message: 'trainee Not Fetched',
                     error: 'Can not Find trainee',
@@ -37,8 +37,8 @@ class TraineeController {
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const creator= req.headers.user;
-            const user = await this.userRepository.create(req.body, creator );
+            const creator = req.headers.user;
+            const user = await this.userRepository.create(req.body, creator);
             if (!user) {
                 next({
                     message: 'trainee Not Created',
@@ -60,21 +60,22 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const data=req.body
+            const data = req.body
             const id = req.body.id;
-            const user = await this.userRepository.update(data, req.headers.user);
             if (!id) {
                 next({
                     message: 'trainee Not Updated',
                     error: 'id is Required',
                     status: 404
                 })
+            } else {
+                const user = await this.userRepository.update(data, req.headers.user);
+                res.send({
+                    message: 'trainee updated successfully',
+                    data: user,
+                    status: 200,
+                });
             }
-            res.send({
-                message: 'trainee updated successfully',
-                data: user,
-                status: 200,
-            });
         } catch (err) {
             next({
                 message: 'Error while Updating trainee'
@@ -83,20 +84,21 @@ class TraineeController {
     }
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
-           const id = req.params.id;
-            await this.userRepository.delete(id, req.headers.user);
+            const id = req.params.id;
             if (!id) {
                 next({
                     message: 'trainee Not Updated',
                     error: 'id is Required',
                     status: 404
                 })
+            } else {
+                await this.userRepository.delete(id, req.headers.user);
+                res.send({
+                    message: 'trainee deleted successfully',
+                    data: req.params.id,
+                    status: 200,
+                });
             }
-            res.send({
-                message: 'trainee deleted successfully',
-                data: req.params.id,
-                status: 200,
-            });
         } catch (err) {
             next({
                 message: 'Error while Deleting trainee'
