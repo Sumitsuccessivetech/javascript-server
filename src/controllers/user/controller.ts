@@ -3,7 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import { userModel } from '../../repositories/user/UserModel'
 import IRequest from '../../IRequest';
 import UserRepository from '../../repositories/user/UserRepository';
-import {payLoad} from '../constants'
+import { config } from '../../config';
+
 
 class UserController {
     static instance: UserController;
@@ -25,28 +26,33 @@ class UserController {
         await user.get({ email })
             .then((userData) => {
                 if (userData === null) {
-                    res.send({
+                    next({
                         message: 'User does Not exist',
-                        error: 'User Not Found',
-                        status: 404
-                    });
-                }
-                
-                if (password !== req.body.password) {
-                    res.send({
-                        message: 'Password is Invalid',
-                        err: 'Invalid Password',
-                        status: 401
+                        error: 404,
                     });
                 }
 
-                const token = jwt.sign(payLoad, 'qwertyuiopasdfghjklzxcvbnm123456');
+                if (password !== req.body.password) {
+                    next({
+                        message: 'Password is Invalid',
+                        err: 401,
+
+                    });
+                }
+                const expDate= new Date();
+                const payLoad = {
+                    name: 'sumit',
+                    iss: new Date(),
+                    exp: expDate.setDate(expDate.getDate() + 7),
+                    email: "sumit.upadhyay@successive.tech",
+                    role: 'trainee'
+                }
+                const token = jwt.sign(payLoad, config.secretKey);
                 res.send({
                     message: 'Login Successfull',
                     status: 200,
                     token: token
                 });
-
             });
     }
 

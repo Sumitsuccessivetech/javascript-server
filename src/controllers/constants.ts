@@ -29,13 +29,4 @@ const users: IUsers[] =
   ]
 
 
-const payLoad = {
-  'iss': 'Online JWT Builder',
-  'iat': 1604994214,
-  'exp': 1636530214,
-  'aud': 'www.successive.com',
-  'sub': 'jrocket@example.com',
-  'email': '',
-  'password': ''
-  };
-export { permissions, users, payLoad}
+export { permissions, users}

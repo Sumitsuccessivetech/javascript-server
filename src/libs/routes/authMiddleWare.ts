@@ -11,7 +11,6 @@ export default (module, permissionType) => (req, res, next) => {
         if (token !== undefined) {
             const decodeUser = jwt.verify(token, key);
             console.log('user is ', decodeUser);
-            // req.userData = decodeUser.result;
             const userRepository = new UserRepository();
             userRepository.findOne({ id: decodeUser.id })
                 .then((userData) => {
@@ -25,7 +24,7 @@ export default (module, permissionType) => (req, res, next) => {
                             status: 403
                         });
                     } else {
-                        req.query = decodeUser.id;
+                        //req.query = decodeUser.id;
                         req.userDataToken = userData;
                         next();
                     }
