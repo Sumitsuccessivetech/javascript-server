@@ -39,7 +39,7 @@ class UserController {
 
                     });
                 }
-                const expDate= new Date();
+                const expDate = new Date();
                 const payLoad = {
                     name: 'sumit',
                     iss: new Date(),
@@ -74,9 +74,8 @@ class UserController {
             const user = await this.userRepository.findAll(req.body, {}, {});
             if (!user) {
                 next({
-                    message: 'User Not Fetched',
-                    error: 'Can not Find user',
-                    status: 404
+                    message: 'Can not Find user',
+                    error: 404
                 })
             }
             res.send({
@@ -96,9 +95,7 @@ class UserController {
             if (!user) {
                 next({
                     message: 'User Not Created',
-                    error: 'user Not Found',
-                    status: 404
-
+                    error: 404,
                 })
             }
             res.send({
@@ -117,9 +114,8 @@ class UserController {
             const id = req.params.id;
             if (!id) {
                 next({
-                    message: 'User Not Updated',
-                    error: 'id is Required',
-                    status: 404
+                    message: 'id is Required',
+                    error: 404,
                 })
             } else {
                 const user = await this.userRepository.update(id, req.headers.user);
@@ -140,9 +136,8 @@ class UserController {
             const id = req.params.id;
             if (!id) {
                 next({
-                    message: 'User Not Updated',
-                    error: 'id is Required',
-                    status: 404
+                    message: 'id is Required',
+                    error: 404,
                 })
             } else {
                 await this.userRepository.delete(id, req.headers.user);

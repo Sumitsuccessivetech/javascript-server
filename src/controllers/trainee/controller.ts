@@ -20,8 +20,7 @@ class TraineeController {
             if (!user) {
                 next({
                     message: 'trainee Not Fetched',
-                    error: 'Can not Find trainee',
-                    status: 404
+                    error: 404,
                 })
             }
             res.send({
@@ -42,9 +41,7 @@ class TraineeController {
             if (!user) {
                 next({
                     message: 'trainee Not Created',
-                    error: 'user Not Found',
-                    status: 404
-
+                    error: 404,
                 })
             }
             res.send({
@@ -65,8 +62,7 @@ class TraineeController {
             if (!id) {
                 next({
                     message: 'trainee Not Updated',
-                    error: 'id is Required',
-                    status: 404
+                    error: 404,
                 })
             } else {
                 const user = await this.userRepository.update(data, req.headers.user);
@@ -87,9 +83,8 @@ class TraineeController {
             const id = req.params.id;
             if (!id) {
                 next({
-                    message: 'trainee Not Updated',
-                    error: 'id is Required',
-                    status: 404
+                    message: 'id is Required',
+                    error: 404,
                 })
             } else {
                 await this.userRepository.delete(id, req.headers.user);
