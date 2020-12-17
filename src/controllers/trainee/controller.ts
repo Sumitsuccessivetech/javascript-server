@@ -58,20 +58,12 @@ class TraineeController {
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = req.body
-            const id = req.body.id;
-            if (!id) {
-                next({
-                    message: 'trainee Not Updated',
-                    error: 404,
-                })
-            } else {
-                const user = await this.userRepository.update(data, req.headers.user);
-                res.send({
-                    message: 'trainee updated successfully',
-                    data: user,
-                    status: 200,
-                });
-            }
+            const user = await this.userRepository.update(data, req.headers.user);
+            res.send({
+                message: 'trainee updated successfully',
+                data: user,
+                status: 200,
+            });
         } catch (err) {
             next({
                 message: 'Error while Updating trainee'
@@ -81,19 +73,12 @@ class TraineeController {
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            if (!id) {
-                next({
-                    message: 'id is Required',
-                    error: 404,
-                })
-            } else {
-                await this.userRepository.delete(id, req.headers.user);
-                res.send({
-                    message: 'trainee deleted successfully',
-                    data: req.params.id,
-                    status: 200,
-                });
-            }
+            await this.userRepository.delete(id, req.headers.user);
+            res.send({
+                message: 'trainee deleted successfully',
+                data: req.params.id,
+                status: 200,
+            });
         } catch (err) {
             next({
                 message: 'Error while Deleting trainee'

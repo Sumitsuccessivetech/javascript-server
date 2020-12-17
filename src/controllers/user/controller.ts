@@ -112,19 +112,12 @@ class UserController {
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            if (!id) {
-                next({
-                    message: 'id is Required',
-                    error: 404,
-                })
-            } else {
-                const user = await this.userRepository.update(id, req.headers.user);
-                res.send({
-                    message: 'user updated successfully',
-                    data: user,
-                    status: 200,
-                });
-            }
+            const user = await this.userRepository.update(id, req.headers.user);
+            res.send({
+                message: 'user updated successfully',
+                data: user,
+                status: 200,
+            });
         } catch (err) {
             next({
                 message: 'Error while Updating User'
@@ -134,19 +127,12 @@ class UserController {
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            if (!id) {
-                next({
-                    message: 'id is Required',
-                    error: 404,
-                })
-            } else {
-                await this.userRepository.delete(id, req.headers.user);
-                res.send({
-                    message: 'user deleted successfully',
-                    data: id,
-                    status: 200,
-                });
-            }
+            await this.userRepository.delete(id, req.headers.user);
+            res.send({
+                message: 'user deleted successfully',
+                data: id,
+                status: 200,
+            });
         } catch (err) {
             next({
                 message: 'Error while Deleting User'

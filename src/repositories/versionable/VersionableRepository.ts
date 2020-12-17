@@ -58,8 +58,8 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;
-        newData.updatedAt;
-        newData.updatedBy= updator;
+        newData.updatedAt = Date.now();
+        newData.updatedBy = updator;
         newData.createdAt = Date.now();
         return this.model.create(newData);
 
