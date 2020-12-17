@@ -2,9 +2,9 @@ import * as mongoose from 'mongoose';
 import seedData from './seedData';
 
 class Database {
-    static open(MONGO_URL) {
+    static open(mongo_url) {
         return new Promise((resolve, reject) => {
-            mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+            mongoose.connect(mongo_url, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
                 if (err) {
                     console.log(err);
                     reject(err);

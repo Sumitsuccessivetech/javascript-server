@@ -1,82 +1,90 @@
-class traineeController {
-    static instance: traineeController
+import { Request, Response, NextFunction } from 'express';
+import UserRepositories from '../../repositories/user/UserRepository';
 
+class TraineeController {
+    private userRepository;
+    constructor() {
+        this.userRepository = new UserRepositories();
+    }
+    static instance: TraineeController;
     static getInstance() {
-        if (traineeController.instance) {
-            return traineeController.instance;
+        if (TraineeController.instance) {
+            return TraineeController.instance;
         }
-        traineeController.instance = new traineeController();
-        return traineeController.instance;
+        TraineeController.instance = new TraineeController();
+        return TraineeController.instance;
     }
-
-    get(req, res, next) {
+    public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside get method of Trainee Controller");
-            res.status(200).json({
-                message: "Trainer fetched succesfully",
-                data: [
-                    {
-                        name: "Sumit",
-                        address: "Noida"
-                    }
-                ]
-            })
+            const user = await this.userRepository.findAll(req.body);
+            if (!user) {
+                next({
+                    message: 'trainee Not Fetched',
+                    error: 404,
+                })
+            }
+            res.send({
+                message: 'trainee fetched successfully',
+                data: user,
+                status: 200,
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            next({
+                message: 'Error while Fetching trainee'
+            })
         }
     }
-  
-    create(req, res, next){
-        try{
-            console.log("Inside post method of Trainee Controller");
-            res.status(200).json({
-                message: "Trainee created succesfully",
-                data: [
-                    {
-                        name: "Sumit",
-                        address: "Noida"
-                    }
-                ]
-            })
-        } catch (err) {
-            console.log(`Error Occured ${err}`)
-        }
-    }
-  
-    update(req, res, next){
-        try{
-
-            console.log("Inside update method of Trainee Controller");
-            res.status(200).json({
-                message: "Trainee updated succesfully",
-                data: [
-                    {
-                        name: "Sumit",
-                        address: "Noida"
-                    }
-                ]
-            })
-        } catch (err) {
-            console.log(`Error Occured ${err}`)
-        }
-    }
-
-    delete(req, res, next) {
+    public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside post method of Trainee Controller");
-            res.status(200).json({
-                message: "Trainee Deleted succesfully",
-                data: [
-                    {
-                        name: "Sumit",
-                        address: "Noida"
-                    }
-                ]
-            })
+            const creator = req.headers.user;
+            const user = await this.userRepository.create(req.body, creator);
+            if (!user) {
+                next({
+                    message: 'trainee Not Created',
+                    error: 404,
+                })
+            }
+            res.send({
+                message: 'trainee created successfully',
+                data: user,
+                status: 200,
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            next({
+                message: 'Error while Creating trainee'
+            })
         }
     }
-
+    public update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = req.body
+            const user = await this.userRepository.update(data, req.headers.user);
+            res.send({
+                message: 'trainee updated successfully',
+                data: user,
+                status: 200,
+            });
+        } catch (err) {
+            next({
+                message: 'Error while Updating trainee'
+            })
+        }
+    }
+    public delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const id = req.params.id;
+            await this.userRepository.delete(id, req.headers.user);
+            res.send({
+                message: 'trainee deleted successfully',
+                data: req.params.id,
+                status: 200,
+            });
+        } catch (err) {
+            next({
+                message: 'Error while Deleting trainee'
+            })
+        }
+    }
 }
-export default traineeController.getInstance();
+
+export default TraineeController.getInstance();

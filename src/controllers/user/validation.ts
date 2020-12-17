@@ -30,11 +30,30 @@ const config = {
             regex: '',
             in: ['body'],
             errorMessage: 'Name is required'
+        },
+        email: {
+            required: true,
+            regex: /^[A-Za-z0-9._%+-]+@successive.tech$/,
+            in: ['body'],
+            errorMessage: 'Email is required'
+        },
+        role: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Role is required'
+        },
+        password: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Password is required'
         }
     },
     Delete: {
         id: {
             required: true,
+            string: true,
             errorMessage: 'Id is required',
             in: ['params']
         }
