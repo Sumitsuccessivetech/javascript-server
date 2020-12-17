@@ -41,11 +41,11 @@ class UserController {
                 }
                 const expDate = new Date();
                 const payLoad = {
-                    name: 'sumit',
+                    name: userData.name,
                     iss: new Date(),
                     exp: expDate.setDate(expDate.getDate() + 7),
-                    email: "sumit.upadhyay@successive.tech",
-                    role: 'trainee'
+                    email: userData.email,
+                    role: userData.role
                 }
                 const token = jwt.sign(payLoad, config.secretKey);
                 res.send({
