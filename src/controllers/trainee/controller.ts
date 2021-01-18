@@ -37,24 +37,12 @@ class TraineeController {
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-<<<<<<< HEAD
             const pass = await bcrypt.hash(req.body.password, 10);
             req.body.password = pass;
             this.userRepository.create(req.body, req.headers.user);
             res.status(200).send({
-=======
-            const creator = req.headers.user;
-            const user = await this.userRepository.create(req.body, creator);
-            if (!user) {
-                next({
-                    message: 'trainee Not Created',
-                    error: 404,
-                })
-            }
-            res.send({
->>>>>>> 3c2246ddf1c903b9389f556772f62ea1fc73ced9
                 message: 'trainee created successfully',
-                data: user,
+                data: req.headers.user,
                 status: 200,
             });
         } catch (err) {

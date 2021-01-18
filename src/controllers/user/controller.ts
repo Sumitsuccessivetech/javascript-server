@@ -2,11 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
-<<<<<<< HEAD
 import IRequest from '../../IRequest';
-=======
-
->>>>>>> 3c2246ddf1c903b9389f556772f62ea1fc73ced9
 
 class UserController {
     static instance: UserController;
@@ -49,7 +45,7 @@ class UserController {
                     email: userData.email,
                     role: userData.role
                 }
-                const token = jwt.sign(payLoad, config.secretKey);
+                const token = jwt.sign(payLoad, config.key);
                 res.send({
                     message: 'Login Successfull',
                     status: 200,
@@ -73,11 +69,6 @@ class UserController {
 
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-<<<<<<< HEAD
-            const userRepository = new UserRepository();
-            const extractedData =  userRepository.findOne(req.body);
-            res.status(200).send({
-=======
             const user = await this.userRepository.findAll(req.body, {}, {});
             if (!user) {
                 next({
@@ -86,7 +77,6 @@ class UserController {
                 })
             }
             res.send({
->>>>>>> 3c2246ddf1c903b9389f556772f62ea1fc73ced9
                 message: 'user fetched successfully',
                 data: user,
                 status: 200,
@@ -97,40 +87,6 @@ class UserController {
             })
         }
     }
-<<<<<<< HEAD
-   public async create(req: IRequest, res: Response, next: NextFunction) {
-        const {  email, name, role, password } = req.body;
-        const user = new UserRepository();
-        await user.create({ email, name, role, password }, req.headers.user)
-            .then(() => {
-                console.log("body is", req.body);
-                res.send({
-                    message: 'User Created Successfully!',
-                    data: {
-                        'name': name,
-                        'email': email,
-                        'role': role,
-                        'password': password
-                    },
-                    code: 200
-                });
-            });
-    }
-    public async update(req: IRequest, res: Response, next: NextFunction) {
-        const { id, dataToUpdate } = req.body;
-        console.log('id',id);
-        console.log('dataToUpdate',dataToUpdate);
-        
-        const user = new UserRepository();
-        await user.update( id, dataToUpdate, req.headers.user)
-        .then((result) => {
-            res.send({
-                message: 'User Updated',
-                code: 200
-            });
-        })
-        .catch ((err) => {
-=======
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = await this.userRepository.create(req.body, req.headers.user);
@@ -140,7 +96,6 @@ class UserController {
                     error: 404,
                 })
             }
->>>>>>> 3c2246ddf1c903b9389f556772f62ea1fc73ced9
             res.send({
                 message: 'user created successfully',
                 data: user,
