@@ -17,56 +17,80 @@ class TraineeController {
     }
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const extractedData = await this.userRepository.findAll(req.body, {}, {});
-            res.status(200).send({
+            const user = await this.userRepository.findAll(req.body);
+            if (!user) {
+                next({
+                    message: 'trainee Not Fetched',
+                    error: 404,
+                })
+            }
+            res.send({
                 message: 'trainee fetched successfully',
-                data: [extractedData],
-                status: 'success',
+                data: user,
+                status: 200,
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({
+                message: 'Error while Fetching trainee'
+            })
         }
     }
     public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
+<<<<<<< HEAD
             const pass = await bcrypt.hash(req.body.password, 10);
             req.body.password = pass;
             this.userRepository.create(req.body, req.headers.user);
             res.status(200).send({
+=======
+            const creator = req.headers.user;
+            const user = await this.userRepository.create(req.body, creator);
+            if (!user) {
+                next({
+                    message: 'trainee Not Created',
+                    error: 404,
+                })
+            }
+            res.send({
+>>>>>>> 3c2246ddf1c903b9389f556772f62ea1fc73ced9
                 message: 'trainee created successfully',
-                data: [req.body],
-                status: 'success',
+                data: user,
+                status: 200,
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({
+                message: 'Error while Creating trainee'
+            })
         }
     }
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            this.userRepository.userUpdate(req.body, req.headers.user);
-            res.status(200).send({
+            const data = req.body
+            const user = await this.userRepository.update(data, req.headers.user);
+            res.send({
                 message: 'trainee updated successfully',
-                data: [req.body]
+                data: user,
+                status: 200,
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({
+                message: 'Error while Updating trainee'
+            })
         }
     }
     public delete = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            this.userRepository.delete(id, req.headers.user);
-            res.status(200).send({
+            await this.userRepository.delete(id, req.headers.user);
+            res.send({
                 message: 'trainee deleted successfully',
-                data: [
-                    {
-                        Id: req.params.id
-                    }
-                ],
-                status: 'success',
+                data: req.params.id,
+                status: 200,
             });
         } catch (err) {
-            console.log('error is ', err);
+            next({
+                message: 'Error while Deleting trainee'
+            })
         }
     }
 }

@@ -3,6 +3,7 @@ import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
 import * as bcrypt from 'bcrypt';
+import { query } from 'express';
 
 export default class UserRepository extends
     VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
@@ -10,7 +11,7 @@ export default class UserRepository extends
     public static generateObjectID() {
         return String(mongoose.Types.ObjectId());
     }
-      constructor() {
+    constructor() {
         super(userModel);
     }
 
@@ -18,7 +19,7 @@ export default class UserRepository extends
         return super.create(data, creator);
     }
 
-    public update(id, data, updator) {
+    public Update(id, data) {
         if ('password' in data) {
             const rawPassword = data.password;
             const saltRounds = 10;
@@ -26,14 +27,14 @@ export default class UserRepository extends
             const hashedPassword = bcrypt.hashSync(rawPassword, salt);
             data.password = hashedPassword;
         }
-        return super.update(id, data, updator);
+        return super.update(id, data);
     }
 
     public get(data) {
-        return super.getUser(data);
+        return super.get(data);
     }
 
-    public deleteData(id, remover) {
+    public delete(id, remover) {
         return super.delete(id, remover);
     }
 
@@ -41,7 +42,7 @@ export default class UserRepository extends
         return super.findOne(data);
     }
 
-    public countData() {
-        return super.count();
+    public count() {
+        return super.count(query);
     }
 }
