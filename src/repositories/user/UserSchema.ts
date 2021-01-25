@@ -11,6 +11,7 @@ class UserSchema extends VersionableSchema {
             email: String,
             role: String,
             password: String,
+            createdby: String,
 
         });
         super(baseSchema, collections);

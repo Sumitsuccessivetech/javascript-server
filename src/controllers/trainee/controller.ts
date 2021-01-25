@@ -40,9 +40,9 @@ class TraineeController {
             const pass = await bcrypt.hash(req.body.password, 10);
             req.body.password = pass;
             this.userRepository.create(req.body, req.headers.user);
-            res.status(200).send({
+            res.send({
                 message: 'trainee created successfully',
-                data: req.headers.user,
+                data: req.body,
                 status: 200,
             });
         } catch (err) {

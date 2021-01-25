@@ -29,7 +29,7 @@ export class VersionableSchema extends mongoose.Schema {
             type: String,
           },
           createdBy: {
-            required: true,
+            //required: true,
             type: String,
           },
         }, options);

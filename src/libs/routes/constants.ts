@@ -1,15 +1,13 @@
 import { IPermissions, IUsers } from './interface';
 
-export const key = 'qwertyuiopasdfghjklzxcvbnm123456';
+export const key= 'qwertyuiopasdfghjklzxcvbnm123456';
 export const Permission: IPermissions = {
     'getUsers': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
         write: ['trainer'],
-        Delete: [],
+        Delete: [ ],
     },
-
-
 };
 
 export const user: IUsers[] = [

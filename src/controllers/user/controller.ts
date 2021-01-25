@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import IRequest from '../../IRequest';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
-import IRequest from '../../IRequest';
 
 class UserController {
     static instance: UserController;

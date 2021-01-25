@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import { key } from './constants';
 import hasPermission from './permission';
 import UserRepository from '../../repositories/user/UserRepository';
+
 export default (module, permissionType) => (req, res, next) => {
     try {
         console.log('config is', module, permissionType);
