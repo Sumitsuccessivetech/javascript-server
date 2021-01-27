@@ -1,89 +1,86 @@
+import { Request, Response, NextFunction } from 'express';
 import UserRepositories from '../../repositories/user/UserRepository';
-class traineeController {
+import * as bcrypt from 'bcrypt';
+
+class TraineeController {
     private userRepository;
     constructor() {
         this.userRepository = new UserRepositories();
     }
-    static instance: traineeController
-
+    static instance: TraineeController;
     static getInstance() {
-        if (traineeController.instance) {
-            return traineeController.instance;
+        if (TraineeController.instance) {
+            return TraineeController.instance;
         }
-        traineeController.instance = new traineeController();
-        return traineeController.instance;
+        TraineeController.instance = new TraineeController();
+        return TraineeController.instance;
     }
-
-    public get = async (req, res, next) => {
+    public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside get method of Trainee Controller");
-            const extractedData = await this.userRepository.findAll(req.body, {}, {});
-            res.status(200).json({
-                message: "Trainer fetched succesfully",
-                data: [extractedData]
-            })
-        } catch (err) {
-            console.log(`Error Occured ${err}`)
-        }
-    }
-
-    public create = async (req, res, next) => {
-        try {
-            console.log("Inside post method of Trainee Controller");
-            this.userRepository.userCreate(req.body);
-            res.status(200).json({
-                message: "Trainee created succesfully",
-                data: [req.body]
-            })
-        } catch (err) {
-            console.log(`Error Occured ${err}`)
-        }
-    }
-
-    public update = async (req, res, next) => {
-        try {
-            console.log("Inside update method of Trainee Controller");
-            const isIdValid = await this.userRepository.userUpdate(req.body);
-            if (!isIdValid) {
-                return next({
-                    message: 'Id is invalid',
-                    error: 'Id not found',
-                    status: 400
-                });
+            const user = await this.userRepository.findAll(req.body);
+            if (!user) {
+                next({
+                    message: 'trainee Not Fetched',
+                    error: 404,
+                })
             }
-            res.status(200).json({
-                message: "Trainee updated succesfully",
-                data: [req.body]
-            })
+            res.send({
+                message: 'trainee fetched successfully',
+                data: user,
+                status: 200,
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            next({
+                message: 'Error while Fetching trainee'
+            })
         }
     }
-
-    public delete = async (req, res, next) => {
+    public create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log("Inside post method of Trainee Controller");
+            const pass = await bcrypt.hash(req.body.password, 10);
+            req.body.password = pass;
+            this.userRepository.create(req.body, req.headers.user);
+            res.send({
+                message: 'trainee created successfully',
+                data: req.body,
+                status: 200,
+            });
+        } catch (err) {
+            next({
+                message: 'Error while Creating trainee'
+            })
+        }
+    }
+    public update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = req.body
+            const user = await this.userRepository.update(data, req.headers.user);
+            res.send({
+                message: 'trainee updated successfully',
+                data: user,
+                status: 200,
+            });
+        } catch (err) {
+            next({
+                message: 'Error while Updating trainee'
+            })
+        }
+    }
+    public delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
             const id = req.params.id;
-            const isIdValid = await this.userRepository.delete(id);
-            if (!isIdValid) {
-                return next({
-                    message: 'Id is invalid',
-                    error: 'Id not found',
-                    status: 400
-                });
-            }
-            res.status(200).json({
-                message: "Trainee Deleted succesfully",
-                data: [
-                    {
-                        Id: id
-                    }
-                ]
-            })
+            await this.userRepository.delete(id, req.headers.user);
+            res.send({
+                message: 'trainee deleted successfully',
+                data: req.params.id,
+                status: 200,
+            });
         } catch (err) {
-            console.log(`Error Occured ${err}`)
+            next({
+                message: 'Error while Deleting trainee'
+            })
         }
     }
-
 }
-export default traineeController.getInstance();
+
+export default TraineeController.getInstance();
