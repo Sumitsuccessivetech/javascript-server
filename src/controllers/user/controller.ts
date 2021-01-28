@@ -1,10 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { userModel } from '../../repositories/user/UserModel'
 import IRequest from '../../IRequest';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
-
 
 class UserController {
     static instance: UserController;
@@ -47,7 +45,7 @@ class UserController {
                     email: userData.email,
                     role: userData.role
                 }
-                const token = jwt.sign(payLoad, config.secretKey);
+                const token = jwt.sign(payLoad, config.key);
                 res.send({
                     message: 'Login Successfull',
                     status: 200,

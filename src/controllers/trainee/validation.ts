@@ -16,20 +16,29 @@ const config = {
         }
     },
     create: {
-        id: {
-            required: true,
-            string: true,
-            in: ['body'],
-            custom: (Value) => {
-                console.log(`Value ${Value}`);
-                throw { error: 'Error Occured', message: 'Message' };
-            }
-        },
         name: {
             required: true,
             regex: '',
             in: ['body'],
             errorMessage: 'Name is required'
+        },
+        email: {
+            required: true,
+            regex: /^[A-Za-z0-9._%+-]+@successive.tech$/,
+            in: ['body'],
+            errorMessage: 'Email is required'
+        },
+        role: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Role is required'
+        },
+        password: {
+            required: true,
+            string: true,
+            in: ['body'],
+            errorMessage: 'Password is required'
         }
     },
     Delete: {
