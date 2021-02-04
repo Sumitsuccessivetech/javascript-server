@@ -17,11 +17,31 @@ class TraineeController {
     }
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const Search = req.query.search as string || '';
+            console.log(Search);
+            let value = '';
+            let key = '';
+            const regexName = /^[a-z]+$/i;
+            const regexEmail = /\b[a-zA-Z0-9+_.-]+@[a-z]+\.[a-z]{2,}\b/;
+            if (req.query.search) {
+                if (regexName.test(Search) || regexEmail.test(Search)) {
+                    value = Search;
+                    key = 'name';
+                }
+                else {
+                    console.log('Search Successfully');
+                }
+            }
+            else {
+                key = undefined;
+                value = undefined;
+            }
+
             const sort = {}
             sort[`${req.query.sortedBy}`] = req.query.sortedOrder;
             console.log(sort);
             const user = await this.userRepository.findAll(req.body).sort(sort)
-            .skip(Number(req.query.skip)).limit(Number(req.query.limit));;
+                .skip(Number(req.query.skip)).limit(Number(req.query.limit));;
             if (!user) {
                 next({
                     message: 'trainee Not Fetched',
