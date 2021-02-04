@@ -15,7 +15,7 @@ const traineeRouter = Router();
  *        properties:
  *          email:
  *              type: string
- *              example: roshan.kumar@successive.tech
+ *              example: sumit.upadhyay@successive.tech
  *          name:
  *              type: string
  *              example: Roshan
@@ -32,7 +32,7 @@ const traineeRouter = Router();
  *              example: 5e4a36bc64824b1f80b730cd
  *          email:
  *              type: string
- *              example: roshan.kumar@successive.tech
+ *              example: sumit.upadhyay@successive.tech
  *          name:
  *              type: string
  *              example: Roshan
