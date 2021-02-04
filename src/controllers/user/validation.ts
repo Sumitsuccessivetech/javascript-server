@@ -14,12 +14,6 @@ const config = {
             in: ['query'],
             errorMessage: 'Limit is invalid'
         },
-        sort: {
-            required: false,
-            boolean: true,
-            in: ['query'],
-            errorMessage: 'Sort is invalid',
-        }
     },
     create: {
         id: {
