@@ -13,7 +13,7 @@ const config = {
             number: true,
             in: ['query'],
             errorMessage: 'Limit is invalid'
-        },
+        }
     },
     create: {
         id: {

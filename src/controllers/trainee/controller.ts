@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import UserRepositories from '../../repositories/user/UserRepository';
 import * as bcrypt from 'bcrypt';
-import count from '../../repositories/versionable/VersionableRepository';
 
 class TraineeController {
     private userRepository;
