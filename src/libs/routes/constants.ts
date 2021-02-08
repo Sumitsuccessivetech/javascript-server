@@ -28,14 +28,14 @@ export const payLoad = {
 };
 export const seedData1 = {
     name: 'head-trainer',
-    email: 'headtrainer@successivetech',
+    email: 'headtrainer@successive.tech',
     role: 'head-trainer',
     password: 'training@123'
 };
 
 export const seedData2 = {
     name: 'trainer',
-    email: 'trainer@successivetech',
+    email: 'trainer@successive.tech',
     role: 'trainer',
     password: 'training@123'
 };
