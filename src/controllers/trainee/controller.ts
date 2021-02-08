@@ -17,7 +17,11 @@ class TraineeController {
     }
     public get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const user = await this.userRepository.findAll(req.body);
+            const sort = {}
+            sort[`${req.query.sortedBy}`] = req.query.sortedOrder;
+            console.log(sort);
+            const user = await this.userRepository.findAll(req.body).sort(sort)
+            .skip(Number(req.query.skip)).limit(Number(req.query.limit));;
             if (!user) {
                 next({
                     message: 'trainee Not Fetched',
@@ -25,6 +29,8 @@ class TraineeController {
                 })
             }
             res.send({
+                totalCount: await this.userRepository.count(req.body),
+                count: user.length,
                 message: 'trainee fetched successfully',
                 data: user,
                 status: 200,

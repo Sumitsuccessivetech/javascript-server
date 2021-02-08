@@ -45,4 +45,8 @@ export default class UserRepository extends
     public count() {
         return super.count(query);
     }
+
+    public getallTrainee(skip, limit, sort) {
+        return super.getallTrainee(skip, limit, sort);
+    }
 }

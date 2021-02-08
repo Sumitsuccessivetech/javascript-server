@@ -46,6 +46,28 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     public async get(data: any) {
         return await this.model.findOne(data);
     }
+    public async getallTrainee(skipDefined: number, limitDefined: number, sort: boolean) {
+        if ( sort ) {
+        const fetchData = await this.model.find( { deletedAt : null})
+        .skip(skipDefined)
+        .limit(limitDefined)
+        .sort({name: 1, email: 1});
+        const count = await this.model.find( {deletedAt: null})
+        .countDocuments();
+
+        const arr = [fetchData, count];
+        return arr;
+        } else {
+            const fetchData = await this.model.find({deletedAt: null})
+            .skip(skipDefined)
+            .limit(limitDefined)
+            .sort({createdAt: -1});
+            const count = await this.model.find({deletedAt: null})
+            .countDocuments();
+            const arr = [fetchData, count];
+            return arr;
+        }
+        }
 
     public async update(data: any, updator: string): Promise<D> {
         const previous = await this.findOne({ originalId: data.id, deletedAt: undefined, });

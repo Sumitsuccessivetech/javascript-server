@@ -13,5 +13,6 @@ traineeRouter.route('/:id')
     .delete(authMiddleWare('getUsers', 'delete'), validationHandler(Validation.Delete), TraineeController.delete);
 traineeRouter.route('/')
     .put(authMiddleWare('getUsers', 'all'), validationHandler(Validation.update), TraineeController.update);
-
+traineeRouter.get('/getall', authMiddleWare('getUser', 'all'), validationHandler(Validation.get),
+    TraineeController.get);
 export default traineeRouter;
