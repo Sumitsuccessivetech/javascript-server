@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import IRequest from '../../IRequest';
 import UserRepository from '../../repositories/user/UserRepository';
 import { config } from '../../config';
+import * as bcrypt from 'bcrypt';
 
 class UserController {
     static instance: UserController;
@@ -22,30 +23,30 @@ class UserController {
         const { email, password } = req.body;
         const user = new UserRepository();
         await user.get({ email })
-            .then((userData) => {
+            .then(async (userData) => {
                 if (userData === null) {
                     next({
                         message: 'User does Not exist',
                         error: 404,
                     });
                 }
-
-                if (password !== req.body.password) {
-                    next({
+                const isPasswordValid = await bcrypt.compare(password, userData.password);
+                console.log(isPasswordValid)
+                if (!isPasswordValid) {
+                    return next({
                         message: 'Password is Invalid',
                         err: 401,
 
                     });
                 }
-                const expDate = new Date();
                 const payLoad = {
                     name: userData.name,
-                    iss: new Date(),
-                    exp: expDate.setDate(expDate.getDate() + 7),
                     email: userData.email,
-                    role: userData.role
+                    originalId: userData.originalId,
+                    role: userData.role,
                 }
-                const token = jwt.sign(payLoad, config.key);
+                console.log(userData, 'USER DATA');
+                const token = jwt.sign(payLoad, config.key, {expiresIn: '15y'});
                 res.send({
                     message: 'Login Successfull',
                     status: 200,

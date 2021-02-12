@@ -27,7 +27,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public findOne(query: any): DocumentQuery<D, D> {
-        console.log(this.model);
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.findOne(finalQuery);
     }
@@ -70,14 +69,14 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         }
 
     public async update(data: any, updator: string): Promise<D> {
-        const previous = await this.findOne({ originalId: data.id, deletedAt: undefined, });
+        const previous = await this.findOne({ originalId: data.originalId, deletedAt: undefined, });
         console.log('previous: ', previous);
         if (previous) {
-            await this.invalidate(data.id);
+            await this.invalidate(data.originalId);
         } else {
             return undefined;
         }
-        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data);
+        const newData = Object.assign(JSON.parse(JSON.stringify(previous)), data.dataToUpdate);
         newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;
         newData.updatedAt = Date.now();

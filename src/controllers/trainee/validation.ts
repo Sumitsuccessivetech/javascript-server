@@ -49,7 +49,7 @@ const config = {
         }
     },
     update: {
-        id: {
+        originalId: {
             required: true,
             string: true,
             in: ['body']

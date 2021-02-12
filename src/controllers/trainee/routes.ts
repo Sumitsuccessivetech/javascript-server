@@ -206,7 +206,7 @@ traineeRouter.route('/:id')
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
-    .delete(authMiddleWare('getUsers', 'delete'), validationHandler(Validation.Delete), TraineeController.delete);
+    .delete(authMiddleWare('getUsers', 'Delete'), validationHandler(Validation.Delete), TraineeController.delete);
 /**
  * @swagger
  *

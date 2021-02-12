@@ -79,8 +79,12 @@ class TraineeController {
     }
     public update = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log('Inside update');
             const data = req.body
-            const user = await this.userRepository.update(data, req.headers.user);
+            console.log(data);
+            const user = await this.userRepository.Update(data, req.headers.user);
+            // const user = await this.userRepository.Update(data.originalId, data.dataToUpdate);
+
             res.send({
                 message: 'trainee updated successfully',
                 data: user,

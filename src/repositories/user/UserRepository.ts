@@ -19,15 +19,16 @@ export default class UserRepository extends
         return super.create(data, creator);
     }
 
-    public Update(id, data) {
-        if ('password' in data) {
-            const rawPassword = data.password;
+    public Update(data, updator) {
+        console.log(data, updator);
+        if ('password' in data.dataToUpdate) {
+            const rawPassword = data.dataToUpdate.password;
             const saltRounds = 10;
             const salt = bcrypt.genSaltSync(saltRounds);
             const hashedPassword = bcrypt.hashSync(rawPassword, salt);
-            data.password = hashedPassword;
+            data.dataToUpdate.password = hashedPassword;
         }
-        return super.update(id, data);
+        return super.update(data, updator);
     }
 
     public get(data) {

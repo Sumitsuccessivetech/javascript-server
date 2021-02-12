@@ -3,49 +3,35 @@ import * as jwt from 'jsonwebtoken';
 import { key } from './constants';
 import hasPermission from './permission';
 import UserRepository from '../../repositories/user/UserRepository';
+import { Console } from 'console';
 
-export default (module, permissionType) => (req, res, next) => {
+export default (module, permissionType) => async (req, res, next) => {
     try {
-        console.log('config is', module, permissionType);
         const token = req.headers.authorization;
-        if (token !== undefined) {
-            const decodeUser = jwt.verify(token, key);
-            console.log('user is ', decodeUser);
-            const userRepository = new UserRepository();
-            userRepository.findOne({ id: decodeUser.id })
-                .then((userData) => {
-                    if (!userData) {
-                        throw 'User Not Found';
-                    }
-                    else if (!hasPermission(module, decodeUser.role, permissionType)) {
-                        next({
-                            error: 'Unauthorised Access',
-                            message: "user are not authorized",
-                            status: 403
-                        });
-                    } else {
-                        //req.query = decodeUser.id;
-                        req.userDataToken = userData;
-                        next();
-                    }
-                })
-                .catch((err) => {
-                    next({
-                        error: 'user is not found',
-                        code: 400
-                    });
-                });
-        } else {
+        const decodeUser = jwt.verify(token, key);
+        const userRepository = new UserRepository();
+        const userData = await userRepository.findOne({ originalId: decodeUser.originalId })
+        if (!userData) {
+            next({
+                message: 'User not found',
+                status: 403
+            })
+        }
+        console.log(!hasPermission(module, decodeUser.role, permissionType));
+        if (!hasPermission(module, decodeUser.role, permissionType)) {
             next({
                 error: 'Unauthorised Access',
-                message: "Please Provide Token"
+                message: "user are not authorized",
+                status: 403
             });
-        }
-    }
-    catch (err) {
+        } else {
+            req.userDataToken = userData;
+            next();
+        } 
+    } catch (err) {
         next({
             message: 'User is Invalid',
-            error: 'Uthentication Failed',
+            error: 'Authentication Failed',
             status: 403
         });
     }
